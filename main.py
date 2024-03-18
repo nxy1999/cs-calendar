@@ -60,7 +60,6 @@ if __name__ == '__main__':
                 eastern_eight = pytz.timezone('Asia/Shanghai')
                 begin_time = datetime.fromtimestamp(timestamp, eastern_eight)
                 event.begin = begin_time
-
             except KeyError as e:
                 print(f"Error: Missing team information for match {match['date']}")
 
