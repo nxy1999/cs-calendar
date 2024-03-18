@@ -51,6 +51,8 @@ if __name__ == '__main__':
             event.name = event_name
         except KeyError as e:
             print(f"Error: Missing team information for match {match['id']}")
+            continue
+
         if not match['live']:
             # event.description = f"Result: {match['result']}"
             try:
