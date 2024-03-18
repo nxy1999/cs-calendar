@@ -3,9 +3,10 @@
 
 import subprocess
 import json
+import pytz
 from ics import Calendar, Event
 from datetime import datetime
-import datetime
+# import datetime
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
@@ -55,7 +56,11 @@ if __name__ == '__main__':
             try:
                 timestamp_ms = match['date']
                 timestamp = timestamp_ms / 1000
-                event.begin = datetime.datetime.fromtimestamp(timestamp)
+                # 东八区时间
+                eastern_eight = pytz.timezone('Asia/Shanghai')
+                begin_time = datetime.fromtimestamp(timestamp, eastern_eight)
+                event.begin = begin_time
+
             except KeyError as e:
                 print(f"Error: Missing team information for match {match['date']}")
 
