@@ -25,9 +25,8 @@ if __name__ == '__main__':
     matches_json = result.stdout
 
     matches_data = json.loads(matches_json)
+    # 测试数据
     # matches_data = [
-    #     {"id": 2370598, "stars": 1, "team1": {"name": "Apeks", "id": 9806}, "team2": {"name": "paiN", "id": 4773},
-    #      "format": "bo1", "event": {"id": 7258, "name": "PGL CS2 Major Copenhagen 2024 Opening Stage"}, "live": True},
     #     {"id": 2370597, "stars": 1, "team1": {"name": "ENCE", "id": 4869}, "team2": {"name": "Imperial", "id": 9455},
     #      "format": "bo1", "event": {"id": 7258, "name": "PGL CS2 Major Copenhagen 2024 Opening Stage"}, "live": True},
     #     {"id": 2370744, "stars": 0, "team1": {"name": "Arrow", "id": 12764},
@@ -42,6 +41,7 @@ if __name__ == '__main__':
     # 批量修改
     for item in matches_data:
         if 'live' in item and item['live'] == 'true':
+            # print(11111)
             item['live'] = True
         if item['live'] == 'false':
             item['live'] = False
@@ -53,17 +53,9 @@ if __name__ == '__main__':
         print("match", match)
         event = Event()
 
-        try:
-            team1_name = match['team1']['name']
-            team2_name = match['team2']['name']
-            event_name = f"{team1_name} vs {team2_name}"
-            event.name = event_name
-        except KeyError as e:
-            print(f"Error: Missing team information for match {match['id']}")
-            continue
-
+        # 比赛还没开始
         if not match['live']:
-            # event.description = f"Result: {match['result']}"
+            # print(11111)
             try:
                 timestamp_ms = match['date']
                 timestamp = timestamp_ms / 1000
@@ -73,6 +65,19 @@ if __name__ == '__main__':
                 event.begin = begin_time
             except KeyError as e:
                 print(f"Error: Missing date information for match {match['date']}")
+        else:
+            continue
+
+        try:
+            team1_name = match['team1']['name']
+            team2_name = match['team2']['name']
+            event_name = f"{team1_name} vs {team2_name}"
+            event.name = event_name
+        except KeyError as e:
+            print(f"Error: Missing team information for match {match['id']}")
+            continue
+
+
 
         # 添加描述信息
         stars = match.get('stars', 0)  # 获取星级推荐数量，默认为 0
@@ -83,7 +88,7 @@ if __name__ == '__main__':
                             f"HLTV: {match['stars']}星推荐\n" \
                             f"赛制: {match['format']}\n" \
                             f"赛事：{match['event']['name']}"
-        event.description = event_description
+        # event.description = event_description
 
         cal.events.add(event)
 
