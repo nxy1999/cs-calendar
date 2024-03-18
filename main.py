@@ -88,7 +88,7 @@ if __name__ == '__main__':
                             f"HLTV: {match['stars']}星推荐\n" \
                             f"赛制: {match['format']}\n" \
                             f"赛事：{match['event']['name']}"
-        # event.description = event_description
+        event.description = event_description
 
         cal.events.add(event)
 
