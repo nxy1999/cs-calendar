@@ -5,6 +5,7 @@ import subprocess
 import json
 from ics import Calendar, Event
 from datetime import datetime
+import datetime
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
@@ -29,7 +30,6 @@ if __name__ == '__main__':
     #     {"id": 2370558, "date": 1710684000000, "stars": 0, "format": "bo3", "event": {"id": 7726, "name": "Tipsport Winter Cup 2024 Finals"}, "live": False}
     # ]
 
-
     # 批量修改
     for item in matches_data:
         if 'live' in item and item['live'] == 'true':
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     cal = Calendar()
 
     for match in matches_data:
-        print("match",match)
+        print("match", match)
         event = Event()
         try:
             team1_name = match['team1']['name']
@@ -50,9 +50,14 @@ if __name__ == '__main__':
             event.name = event_name
         except KeyError as e:
             print(f"Error: Missing team information for match {match['id']}")
-        if match['live'] == "false":
-            event.begin = datetime.fromtimestamp(match['date'])
-        # event.description = f"Result: {match['result']}"
+        if not match['live']:
+            # event.description = f"Result: {match['result']}"
+            try:
+                timestamp_ms = match['date']
+                timestamp = timestamp_ms / 1000
+                event.begin = datetime.datetime.fromtimestamp(timestamp)
+            except KeyError as e:
+                print(f"Error: Missing team information for match {match['date']}")
 
         cal.events.add(event)
 
