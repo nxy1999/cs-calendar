@@ -6,7 +6,15 @@ import json
 import pytz
 from ics import Calendar, Event
 from datetime import datetime
+
+
 # import datetime
+
+# 星级推荐转换为星星符号
+def stars_to_symbols(stars):
+    star_symbol = '★'
+    return star_symbol * stars
+
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
@@ -44,6 +52,7 @@ if __name__ == '__main__':
     for match in matches_data:
         print("match", match)
         event = Event()
+
         try:
             team1_name = match['team1']['name']
             team2_name = match['team2']['name']
@@ -64,6 +73,17 @@ if __name__ == '__main__':
                 event.begin = begin_time
             except KeyError as e:
                 print(f"Error: Missing date information for match {match['date']}")
+
+        # 添加描述信息
+        stars = match.get('stars', 0)  # 获取星级推荐数量，默认为 0
+        star_symbols = stars_to_symbols(stars)
+        # "stars": 1, "team1": {"name": "ENCE", "id": 4869}, "team2": {"name": "Imperial", "id": 9455},
+        # "format": "bo1", "event": {"id": 7258, "name": "PGL CS2 Major Copenhagen 2024 Opening Stage"}, "live": True},
+        event_description = f"HLTV: {star_symbols}\n" \
+                            f"HLTV: {match['stars']}星推荐\n" \
+                            f"赛制: {match['format']}\n" \
+                            f"赛事：{match['event']['name']}"
+        event.description = event_description
 
         cal.events.add(event)
 
