@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 begin_time = datetime.fromtimestamp(timestamp, eastern_eight)
                 event.begin = begin_time
             except KeyError as e:
-                print(f"Error: Missing team information for match {match['date']}")
+                print(f"Error: Missing date information for match {match['date']}")
 
         cal.events.add(event)
 
