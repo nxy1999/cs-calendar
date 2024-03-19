@@ -44,7 +44,7 @@ jobs:
           git config --local user.email "2924157356@qq.com"
           git config --local user.name "nxy"
 
-          git add .  # Add all changes
+          git add matches_calendar.ics  # Add all changes
           git commit -m "Update match data"  # Commit changes
           git push origin master # Push changes
           echo "Changes pushed to GitHub repository"
