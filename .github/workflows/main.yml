@@ -37,6 +37,13 @@ jobs:
           pip install pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: python exe
+      - name: python update ics file
         run: |
           python main.py
+          echo "Updated content" > matches_calendar.ics
+
+      - name: Upload updated ICS file
+        uses: actions/upload-artifact@v2
+        with:
+          name: updated-matches-calendar
+          path: matches_calendar.ics
