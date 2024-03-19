@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     matches_json = result.stdout
     print(matches_json)
-    matches_data = {}
+    # matches_data = {}
     try:
         matches_data = json.loads(matches_json)
     except json.JSONDecodeError as e:

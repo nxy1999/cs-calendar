@@ -16,4 +16,6 @@ CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户�
 - [ ] 时区问题
 - [ ] 自动获取赛事id
 - [ ] 更新脚本的方式
+- [ ] github actions 执行有问题
+- [ ] API 不稳定
 
