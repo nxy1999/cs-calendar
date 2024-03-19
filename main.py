@@ -3,6 +3,8 @@
 
 import subprocess
 import json
+import time
+
 import pytz
 from ics import Calendar, Event
 from datetime import datetime
@@ -18,19 +20,26 @@ def stars_to_symbols(stars):
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    # 调用 Node.js 脚本获取比赛数据
-    node_script = "node getMatchResults.js"
-    result = subprocess.run(node_script, shell=True, capture_output=True, text=True)
+    while True:
+        # 调用 Node.js 脚本获取比赛数据
+        node_script = "node getMatchResults.js"
+        result = subprocess.run(node_script, shell=True, capture_output=True, text=True)
 
-    matches_json = result.stdout
-    print(matches_json)
-    # matches_data = {}
-    try:
-        matches_data = json.loads(matches_json)
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON: {e}")
-        print("日历文件创建失败！")
-        raise SystemExit
+        if result.returncode == 0:
+            matches_json = result.stdout
+            # matches_data = {}
+            try:
+                matches_data = json.loads(matches_json)
+                break
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON: {e}")
+        else:
+            print("Error running the Node.js script. Retrying in 5 seconds...")
+
+        # 休眠一段时间后重试
+        time.sleep(5)
+
+    print("成功获取比赛数据：", matches_data)
 
     # 测试数据
     # matches_data = [
