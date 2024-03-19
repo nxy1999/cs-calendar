@@ -54,6 +54,7 @@ jobs:
           git add .  # Add all changes
           git commit -m "Update match data"  # Commit changes
           git push origin master # Push changes
+          echo "Changes pushed to GitHub repository"
         env:
           github_token: ${{ secrets.ACCESS_TOKEN }}
-          echo "Changes pushed to GitHub repository"
+
