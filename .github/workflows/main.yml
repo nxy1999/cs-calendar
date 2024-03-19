@@ -20,7 +20,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
+          cache: 'npm'
+#      - run: npm ci
 #      - run: npm run build --if-present
 
       - name: Set up Python 3.10
