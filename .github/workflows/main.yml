@@ -7,8 +7,8 @@ on:
    push:
      branches:
        - master
-  schedule:
-    - cron: '0 * * * *'  # 设置定时任务每小时执行一次
+   schedule:
+     - cron: '0 * * * *'  # 设置定时任务每小时执行一次
 
 jobs:
   build:
