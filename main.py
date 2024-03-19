@@ -23,8 +23,12 @@ if __name__ == '__main__':
     result = subprocess.run(node_script, shell=True, capture_output=True, text=True)
 
     matches_json = result.stdout
+    print(matches_json)
+    try:
+        matches_data = json.loads(matches_json)
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
 
-    matches_data = json.loads(matches_json)
     # 测试数据
     # matches_data = [
     #     {"id": 2370597, "stars": 1, "team1": {"name": "ENCE", "id": 4869}, "team2": {"name": "Imperial", "id": 9455},
