@@ -20,6 +20,7 @@ def stars_to_symbols(stars):
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
+    cycle = 0
     while True:
         # 调用 Node.js 脚本获取比赛数据
         node_script = "node getMatchResults.js"
@@ -38,6 +39,10 @@ if __name__ == '__main__':
 
         # 休眠一段时间后重试
         time.sleep(5)
+        cycle += 1
+        if cycle == 20:
+            print("获取比赛数据失败")
+            raise SystemExit
 
     print("成功获取比赛数据：", matches_data)
 
