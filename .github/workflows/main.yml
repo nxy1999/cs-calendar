@@ -10,8 +10,6 @@ on:
   schedule:
     - cron: '0 * * * *'  # 设置定时任务每小时执行一次
 
-permissions:
-  contents: read
 
 jobs:
   build:
@@ -56,5 +54,6 @@ jobs:
           git add .  # Add all changes
           git commit -m "Update match data"  # Commit changes
           git push origin master # Push changes
-
+        env:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
           echo "Changes pushed to GitHub repository"
