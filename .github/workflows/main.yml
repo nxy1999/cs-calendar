@@ -42,8 +42,19 @@ jobs:
           python main.py
           echo "Updated content" > matches_calendar.ics
 
-      - name: Upload updated ICS file
-        uses: actions/upload-artifact@v2
-        with:
-          name: updated-matches-calendar
-          path: matches_calendar.ics
+#      - name: Upload updated ICS file
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: updated-matches-calendar
+#          path: matches_calendar.ics
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "2924157356@qq.com"
+          git config --local user.name "nxy"
+
+          git add .  # Add all changes
+          git commit -m "Update match data"  # Commit changes
+          git push origin master # Push changes
+
+          echo "Changes pushed to GitHub repository"
