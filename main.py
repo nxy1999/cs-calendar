@@ -38,9 +38,9 @@ if __name__ == '__main__':
             print("Error running the Node.js script. Retrying in 5 seconds...")
 
         # 休眠一段时间后重试
-        time.sleep(5)
+        time.sleep(10)
         cycle += 1
-        if cycle == 20:
+        if cycle == 30:
             print("获取比赛数据失败")
             raise SystemExit
 
