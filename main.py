@@ -93,7 +93,7 @@ if __name__ == '__main__':
     # with open('matches_calendar.ics', 'w', encoding='gbk') as f:
     #     f.write(cal.decode('utf-8').encode('gbk'))
 
-    with open('matches_calendar.ics', 'w', encoding='gbk') as f:
+    with open('matches_calendar.ics', 'w', encoding='utf8') as f:
         f.writelines(cal)
 
     print("日历文件创建成功！")
