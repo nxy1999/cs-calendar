@@ -24,10 +24,13 @@ if __name__ == '__main__':
 
     matches_json = result.stdout
     print(matches_json)
+    matches_data = {}
     try:
         matches_data = json.loads(matches_json)
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
+        print("日历文件创建失败！")
+        raise SystemExit
 
     # 测试数据
     # matches_data = [
