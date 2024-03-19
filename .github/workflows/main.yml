@@ -1,0 +1,16 @@
+name: Rebuild ics
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  rebuild_shuyz_website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute ics
+        run: |
+          Python main.py
+           
