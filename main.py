@@ -48,7 +48,6 @@ if __name__ == '__main__':
     # 批量修改
     for item in matches_data:
         if 'live' in item and item['live'] == 'true':
-            # print(11111)
             item['live'] = True
         if item['live'] == 'false':
             item['live'] = False
