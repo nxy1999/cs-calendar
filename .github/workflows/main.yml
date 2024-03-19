@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 * * * *'  # 设置定时任务每小时执行一次
 
 jobs:
   rebuild_shuyz_website:
@@ -12,5 +14,5 @@ jobs:
     steps:
       - name: Execute ics
         run: |
-          Python main.py
+          python main.py
            
