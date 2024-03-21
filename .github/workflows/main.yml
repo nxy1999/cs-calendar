@@ -52,7 +52,7 @@ jobs:
         run: |
           git config --local user.email "2924157356@qq.com"
           git config --local user.name "nxy"
-
+          git pull
           git add matches_calendar.ics
           git commit -m "Update match data" || echo "No changes to commit"
           git push origin master # Push changes
