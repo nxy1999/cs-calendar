@@ -46,7 +46,7 @@ jobs:
           git config --local user.name "nxy"
 
           git add matches_calendar.ics  # Add all changes
-          git commit -m "Update match data"  # Commit changes
+          git commit -m "Update match data" || echo "No changes to commit"
           git push origin master # Push changes
           echo "Changes pushed to GitHub repository"
         env:
