@@ -17,13 +17,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
       - run: npm ci
-#      - run: npm run build --if-present
+
+      - name: Cache Python packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
@@ -45,7 +53,7 @@ jobs:
           git config --local user.email "2924157356@qq.com"
           git config --local user.name "nxy"
 
-          git add matches_calendar.ics  # Add all changes
+          git add matches_calendar.ics
           git commit -m "Update match data" || echo "No changes to commit"
           git push origin master # Push changes
           echo "Changes pushed to GitHub repository"
