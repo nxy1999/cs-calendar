@@ -8,8 +8,8 @@ const { HLTV } = require('hltv')
 //   console.log(JSON.stringify(matches));
 // })
 
-// 构造一个包含major和INTLLAN类型的数组
-const eventTypes = ['MAJOR','INTLLAN'];
+// 构造一个包含'MAJOR'和'INTLLAN'类型的数组
+const eventTypes = ['MAJOR'];
 
 // 获取事件ID
 HLTV.getEvents({ eventType: eventTypes }).then(res => {
