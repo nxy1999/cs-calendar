@@ -48,32 +48,64 @@ def extract_first_summary(ics_content):
 #     else:
 #         print("First SUMMARY unchanged. No update needed.")
 
+def fetch_matches_data():
+    """调用Node.js脚本获取比赛数据"""
+    node_script = "node getMatches.js"
+    try:
+        result = subprocess.run(node_script, shell=True, capture_output=True, text=True, check=True)
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        print(f"Subprocess error: {e.stderr}")
+        raise
+
+
+def main():
+    max_attempts = 10
+    for attempt in range(max_attempts):
+        try:
+            matches_json = fetch_matches_data()
+            matches_data = json.loads(matches_json)
+            return matches_data
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+
+        time.sleep(10)
+
+    print("获取比赛数据失败")
+    raise SystemExit
+
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    cycle = 0
-    while True:
-        # 调用 Node.js 脚本获取比赛数据
-        node_script = "node getMatches.js"
-        result = subprocess.run(node_script, shell=True, capture_output=True, text=True)
 
-        if result.returncode == 0:
-            matches_json = result.stdout
-            # matches_data = {}
-            try:
-                matches_data = json.loads(matches_json)
-                break
-            except json.JSONDecodeError as e:
-                print(f"Error decoding JSON: {e}")
-        else:
-            print("Error running the Node.js script. Retrying in 5 seconds...")
+    matches_data = main()
+    print(matches_data)
 
-        # 休眠一段时间后重试
-        time.sleep(10)
-        cycle += 1
-        if cycle == 10:
-            print("获取比赛数据失败")
-            raise SystemExit
+    # cycle = 0
+    # while True:
+    #     # 调用 Node.js 脚本获取比赛数据
+    #     node_script = "node getMatches.js"
+    #     result = subprocess.run(node_script, shell=True, capture_output=True, text=True)
+    #
+    #     if result.returncode == 0:
+    #         matches_json = result.stdout
+    #         # matches_data = {}
+    #         try:
+    #             matches_data = json.loads(matches_json)
+    #             break
+    #         except json.JSONDecodeError as e:
+    #             print(f"Error decoding JSON: {e}")
+    #     else:
+    #         print("Error running the Node.js script. Retrying in 5 seconds...")
+    #
+    #     # 休眠一段时间后重试
+    #     time.sleep(10)
+    #     cycle += 1
+    #     if cycle == 10:
+    #         print("获取比赛数据失败")
+    #         raise SystemExit
 
     # print("成功获取比赛数据：", matches_data)
 
