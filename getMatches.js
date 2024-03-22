@@ -20,7 +20,7 @@ const { getEventIdsByType } = require('./getEventIdsByType');
 // 假设这是在一个异步函数中
 async function getMatches() {
   try {
-    const eventIds = await getEventIdsByType('Major');
+    const eventIds = await getEventIdsByType('MAJOR');
     const matches = await HLTV.getMatches({ eventIds: eventIds });
     console.log(JSON.stringify(matches));
   } catch (error) {

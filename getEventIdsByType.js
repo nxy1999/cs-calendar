@@ -42,7 +42,7 @@ function getEventIdsByType(eventTypeString) {
 
 // 使用封装的函数获取特定类型的事件ID
 // 测试代码
-// getEventIdsByType('Major').then(eventIds => {
+// getEventIdsByType('MAJOR').then(eventIds => {
 //     console.log(eventIds); // 这里处理只属于Major类型的事件的ID
 // });
 
