@@ -10,12 +10,43 @@ from ics import Calendar, Event
 from datetime import datetime
 
 
-# import datetime
-
 # 星级推荐转换为星星符号
 def stars_to_symbols(stars):
     star_symbol = '★'
     return star_symbol * stars
+
+
+# 简单提取ICS内容中第一个SUMMARY的值
+def extract_first_summary(ics_content):
+    for line in ics_content.splitlines():
+        if line.startswith("SUMMARY:"):
+            return line[len("SUMMARY:"):].strip()
+    return None
+
+
+def update_ics_file_if_needed(file_path, matches):
+    """
+    如果需要，根据新的比赛数据更新ICS文件。
+    """
+    # 生成新的ICS内容
+    new_ics_content = generate_ics_content(matches)
+    new_first_summary = extract_first_summary(new_ics_content)
+
+    # 尝试读取现有的ICS文件
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            old_ics_content = file.read()
+        old_first_summary = extract_first_summary(old_ics_content)
+    except FileNotFoundError:
+        old_first_summary = None
+
+    # 如果第一个SUMMARY发生变化，或文件不存在，则更新ICS文件
+    if new_first_summary != old_first_summary:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(new_ics_content)
+        print("ICS file has been updated.")
+    else:
+        print("First SUMMARY unchanged. No update needed.")
 
 
 # 按间距中的绿色按钮以运行脚本。
@@ -23,7 +54,7 @@ if __name__ == '__main__':
     cycle = 0
     while True:
         # 调用 Node.js 脚本获取比赛数据
-        node_script = "node getMatchResults.js"
+        node_script = "node getMatches.js"
         result = subprocess.run(node_script, shell=True, capture_output=True, text=True)
 
         if result.returncode == 0:
@@ -40,7 +71,7 @@ if __name__ == '__main__':
         # 休眠一段时间后重试
         time.sleep(10)
         cycle += 1
-        if cycle == 30:
+        if cycle == 10:
             print("获取比赛数据失败")
             raise SystemExit
 
@@ -84,7 +115,7 @@ if __name__ == '__main__':
                 event.begin = begin_time
             except KeyError as e:
                 print(f"Error: Missing date information for match {match['date']}")
-        else:
+        else:  # 比赛正在执行
             continue
 
         try:
@@ -92,6 +123,20 @@ if __name__ == '__main__':
             team2_name = match['team2']['name']
             event_name = f"{team1_name} vs {team2_name}"
             event.name = event_name
+
+            # 尝试读取现有的ICS文件
+            try:
+                with open('matches_calendar.ics', 'r', encoding='utf8') as file:
+                    old_ics_content = file.read()
+                old_first_summary = extract_first_summary(old_ics_content)
+            except FileNotFoundError:
+                old_first_summary = None
+
+            # 如果第一个SUMMARY发生变化，或文件不存在，则更新ICS文件
+            if old_first_summary == event.name:
+                print("First SUMMARY unchanged. No update needed.")
+                raise SystemExit
+
         except KeyError as e:
             print(f"Error: Missing team information for match {match['id']}")
             continue
@@ -110,9 +155,6 @@ if __name__ == '__main__':
         cal.events.add(event)
 
     # 将日历写入.ics文件
-    # with open('matches_calendar.ics', 'w', encoding='gbk') as f:
-    #     f.write(cal.decode('utf-8').encode('gbk'))
-
     with open('matches_calendar.ics', 'w', encoding='utf8') as f:
         f.writelines(cal)
 
