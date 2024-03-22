@@ -24,29 +24,29 @@ def extract_first_summary(ics_content):
     return None
 
 
-def update_ics_file_if_needed(file_path, matches):
-    """
-    如果需要，根据新的比赛数据更新ICS文件。
-    """
-    # 生成新的ICS内容
-    new_ics_content = generate_ics_content(matches)
-    new_first_summary = extract_first_summary(new_ics_content)
-
-    # 尝试读取现有的ICS文件
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            old_ics_content = file.read()
-        old_first_summary = extract_first_summary(old_ics_content)
-    except FileNotFoundError:
-        old_first_summary = None
-
-    # 如果第一个SUMMARY发生变化，或文件不存在，则更新ICS文件
-    if new_first_summary != old_first_summary:
-        with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(new_ics_content)
-        print("ICS file has been updated.")
-    else:
-        print("First SUMMARY unchanged. No update needed.")
+# def update_ics_file_if_needed(file_path, matches):
+#     """
+#     如果需要，根据新的比赛数据更新ICS文件。
+#     """
+#     # 生成新的ICS内容
+#     new_ics_content = generate_ics_content(matches)
+#     new_first_summary = extract_first_summary(new_ics_content)
+#
+#     # 尝试读取现有的ICS文件
+#     try:
+#         with open(file_path, 'r', encoding='utf-8') as file:
+#             old_ics_content = file.read()
+#         old_first_summary = extract_first_summary(old_ics_content)
+#     except FileNotFoundError:
+#         old_first_summary = None
+#
+#     # 如果第一个SUMMARY发生变化，或文件不存在，则更新ICS文件
+#     if new_first_summary != old_first_summary:
+#         with open(file_path, 'w', encoding='utf-8') as file:
+#             file.write(new_ics_content)
+#         print("ICS file has been updated.")
+#     else:
+#         print("First SUMMARY unchanged. No update needed.")
 
 
 # 按间距中的绿色按钮以运行脚本。
