@@ -75,7 +75,7 @@ if __name__ == '__main__':
             print("获取比赛数据失败")
             raise SystemExit
 
-    print("成功获取比赛数据：", matches_data)
+    # print("成功获取比赛数据：", matches_data)
 
     # 测试数据
     # matches_data = [
