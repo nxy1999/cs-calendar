@@ -5,12 +5,13 @@ name: Python application
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [ "major" ]
 #  push:
 #    branches:
 #      - master
   schedule:
     - cron: '0 * * * *'  # 设置定时任务每小时执行一次
-
 
 #jobs:
 #  trigger:
@@ -19,7 +20,7 @@ on:
 #    - name: Trigger another workflow via repository_dispatch
 #      run: |
 #        curl -X POST -H "Accept: application/vnd.github.v3+json" \
-#            -H "Authorization: token ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}" \
+#            -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" \
 #            https://api.github.com/repos/nxy1999/cs-calender/dispatches \
 #            -d '{"event_type": "major"}'
 
