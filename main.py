@@ -52,7 +52,7 @@ def main():
     raise SystemExit
 
 
-def process_matches_data(matches_data):
+def process_matches_data(matches):
     """
     # 不需要转换
     # 批量转换'live'字段
@@ -74,7 +74,7 @@ def process_matches_data(matches_data):
 
     cal = Calendar()
 
-    for match in matches_data:
+    for match in matches:
         if match['live']:  # 忽略正在进行的比赛
             continue
 
