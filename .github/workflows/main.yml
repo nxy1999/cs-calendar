@@ -11,6 +11,18 @@ on:
   schedule:
     - cron: '0 * * * *'  # 设置定时任务每小时执行一次
 
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger another workflow via repository_dispatch
+      run: |
+        curl -X POST -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}" \
+            https://api.github.com/repos/nxy1999/cs-calender/dispatches \
+            -d '{"event_type": "major"}'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,7 +64,7 @@ jobs:
         run: |
           git config --local user.email "2924157356@qq.com"
           git config --local user.name "nxy"
-          git pull
+#          git pull
           git add matches_calendar.ics
           git commit -m "Update match data" || echo "No changes to commit"
           git push origin master # Push changes
