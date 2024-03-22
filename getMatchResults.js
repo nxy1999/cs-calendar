@@ -11,11 +11,10 @@ const { HLTV } = require('hltv')
 // 构造一个包含'MAJOR'和'INTLLAN'类型的数组
 const eventTypes = ['MAJOR'];
 
-// 获取事件ID
-HLTV.getEvents({ eventType: eventTypes }).then(res => {
-    const eventIds = res.map(event => event.id);
+const { getEventIds } = require('./events');
 
-    // 使用获取到的事件ID获取比赛信息
+// 获取事件ID
+getEventIds().then(eventIds => {
     HLTV.getMatches({eventIds: eventIds}).then(matches => {
         console.log(JSON.stringify(matches));
     });
