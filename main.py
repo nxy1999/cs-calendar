@@ -39,8 +39,13 @@ def main():
     for attempt in range(max_attempts):
         try:
             matches_json = fetch_matches_data()
-            matches_data = json.loads(matches_json)
-            return matches_data
+            if not matches_json.strip():
+                print(f"Attempt {attempt + 1}: No data returned, retrying...")
+                time.sleep(10)
+                continue
+
+            matches = json.loads(matches_json)
+            return matches
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
         except Exception as e:
