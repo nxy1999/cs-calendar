@@ -38,10 +38,10 @@ def main():
     max_attempts = 10
     for attempt in range(max_attempts):
         try:
+            print(f"正在尝试 第{attempt + 1}次: ")
             matches_json = fetch_matches_data()
             if not matches_json.strip():
                 print(f"Attempt {attempt + 1}: No data returned, retrying...")
-                time.sleep(10)
                 continue
 
             matches = json.loads(matches_json)
@@ -54,7 +54,7 @@ def main():
         time.sleep(10)
 
     print("获取比赛数据失败")
-    raise SystemExit
+    raise SystemExit(1)
 
 
 def process_matches_data(matches):
@@ -110,7 +110,7 @@ def process_matches_data(matches):
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-
+    raise SystemExit
     # 测试数据
     # matches_data = [
     #     {"id": 2370597, "stars": 1, "team1": {"name": "ENCE", "id": 4869}, "team2": {"name": "Imperial", "id": 9455},
