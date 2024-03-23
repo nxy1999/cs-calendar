@@ -110,7 +110,7 @@ def process_matches_data(matches):
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    raise SystemExit
+    raise SystemExit(1)
     # 测试数据
     # matches_data = [
     #     {"id": 2370597, "stars": 1, "team1": {"name": "ENCE", "id": 4869}, "team2": {"name": "Imperial", "id": 9455},
