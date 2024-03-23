@@ -111,7 +111,6 @@ def process_matches_data(matches):
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    sys.exit(1)
     raise SystemExit(1)
     # 测试数据
     # matches_data = [
