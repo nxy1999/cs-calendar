@@ -115,15 +115,12 @@ def main():
                 return matches
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
-            break  # 添加break语句，避免不必要的等待
 
         except ValueError as e:
             print(f"Attempt {attempt + 1} failed due to: {e}")
-            break  # 添加break语句，避免不必要的等待
 
         except Exception as e:
             print(f"Unexpected error during Attempt {attempt + 1}: {e}")
-            break  # 添加break语句，避免不必要的等待
 
         finally:
             if attempt < max_attempts - 1:
