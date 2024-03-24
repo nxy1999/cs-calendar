@@ -90,8 +90,9 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
             if old_first_summary and old_first_summary == event.name:
                 print("First SUMMARY unchanged. No update needed.")
                 return
+    for event in events_to_add:
+        cal.events.add(event)
 
-    cal.events.add(*events_to_add)  # 一次性添加所有事件
     try:
         with open(ics_file_name, 'w', encoding='utf8') as f:
             f.write(cal.serialize())
