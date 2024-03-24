@@ -4,11 +4,11 @@
   "description": "CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户端订阅",
   "main": "getMatches.js",
   "scripts": {
-    "test": "node getMatches.js",
+    "match": "node getMatches.js",
     "event": "node getEventIdsByType.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["CS", "calendar", "ICS", "events"],
+  "author": "nxy 2924157356@qq.com",
   "license": "ISC",
   "dependencies": {
     "hltv": "^3.5.0"
