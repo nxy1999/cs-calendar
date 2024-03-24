@@ -101,7 +101,7 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
 
 
 def main():
-    max_attempts = 6
+    max_attempts = 10
     delay = 1
     for attempt in range(max_attempts):
         try:
