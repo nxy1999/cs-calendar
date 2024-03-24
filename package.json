@@ -12,6 +12,5 @@
   "license": "ISC",
   "dependencies": {
     "hltv": "^3.5.0"
-  },
-  "devDependencies": {}
+  }
 }
