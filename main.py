@@ -35,6 +35,71 @@ def fetch_matches_data():
         raise
 
 
+def create_event(match, timezone):
+    """
+    根据比赛数据创建一个事件。
+
+    :param match: 包含比赛信息的字典。
+    :param timezone: 时区对象。
+    :return: 配置好的Event对象。
+    """
+    try:
+        timestamp = match.get('date', 0) / 1000
+        begin_time = datetime.fromtimestamp(timestamp, timezone)
+        team1_name = match['team1']['name']
+        team2_name = match['team2']['name']
+        event_name = f"{team1_name} vs {team2_name}"
+        stars = match.get('stars', 0)
+        event_description = f"HLTV: {'★' * stars}\nHLTV: {match['stars']}星推荐\n赛制: {match['format']}\n赛事：{match['event']['name']}"
+        event = Event()
+        event.begin = begin_time
+        event.name = event_name
+        event.description = event_description
+        return event
+    except KeyError as e:
+        print(f"Error creating event: {e}")
+        return None
+
+
+def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone=pytz.timezone('Asia/Shanghai')):
+    """
+   处理比赛数据，更新日历文件。
+
+   :param matches: 包含比赛信息的列表。
+   :param ics_file_name: 日历文件的名称。
+   :param timezone: 要使用的时区。
+    """
+    try:
+        with open(ics_file_name, 'r', encoding='utf8') as file:
+            old_ics_content = file.read()
+    except FileNotFoundError:
+        old_ics_content = None
+
+    old_first_summary = extract_first_summary(old_ics_content)
+
+    cal = Calendar()
+
+    events_to_add = []
+    for match in matches:
+        if match['live']:  # 忽略正在进行的比赛
+            continue
+
+        event = create_event(match, timezone)
+        if event:
+            events_to_add.append(event)
+            if old_first_summary and old_first_summary == event.name:
+                print("First SUMMARY unchanged. No update needed.")
+                return
+
+    cal.events.add(*events_to_add)  # 一次性添加所有事件
+    try:
+        with open(ics_file_name, 'w', encoding='utf8') as f:
+            f.write(cal.serialize())
+        print("日历文件创建成功！")
+    except IOError as e:
+        print(f"Error writing to {ics_file_name}: {e}")
+
+
 def main():
     max_attempts = 10
     delay = 1
@@ -60,57 +125,6 @@ def main():
     raise SystemExit(1)
 
 
-def process_matches_data(matches):
-    """
-    # 不需要转换
-    # 批量转换'live'字段
-    for match in matches_data:
-        match['live'] = match.get('live')
-        # if 'live' in item and item['live'] == 'true':
-        #     item['live'] = True
-        # if item['live'] == 'false':
-        #     item['live'] = False
-    """
-
-    try:
-        with open('matches_calendar.ics', 'r', encoding='utf8') as file:
-            old_ics_content = file.read()
-    except FileNotFoundError:
-        old_ics_content = None
-
-    old_first_summary = extract_first_summary(old_ics_content)
-
-    cal = Calendar()
-
-    for match in matches:
-        if match['live']:  # 忽略正在进行的比赛
-            continue
-
-        try:
-            timestamp = match.get('date', 0) / 1000
-            begin_time = datetime.fromtimestamp(timestamp, pytz.timezone('Asia/Shanghai'))
-            team1_name = match['team1']['name']
-            team2_name = match['team2']['name']
-            event_name = f"{team1_name} vs {team2_name}"
-
-            if old_first_summary and old_first_summary == event_name:
-                print("First SUMMARY unchanged. No update needed.")
-                return
-
-            event = Event()
-            event.begin = begin_time
-            event.name = event_name
-            stars = match.get('stars', 0)
-            event.description = f"HLTV: {'★' * stars}\nHLTV: {match['stars']}星推荐\n赛制: {match['format']}\n赛事：{match['event']['name']}"
-            cal.events.add(event)
-        except KeyError as e:
-            print(f"Error processing match: {e}")
-
-    with open('matches_calendar.ics', 'w', encoding='utf8') as f:
-        f.write(cal.serialize())
-    print("日历文件创建成功！")
-
-
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
     # 测试数据
@@ -131,4 +145,3 @@ if __name__ == '__main__':
         process_matches_data(matches_data)
 
     # print("成功获取比赛数据：", matches_data)
-
