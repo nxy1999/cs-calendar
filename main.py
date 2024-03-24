@@ -28,7 +28,7 @@ def fetch_matches_data():
     """调用Node.js脚本获取比赛数据"""
     node_script = "node getMatches.js"
     try:
-        result = subprocess.run(node_script, shell=True, capture_output=True, text=True, check=True)
+        result = subprocess.run(node_script, shell=True, capture_output=True, text=True, check=True, encoding='utf-8')
         return result.stdout
     except subprocess.CalledProcessError as e:
         print(f"Subprocess error: {e.stderr}")
