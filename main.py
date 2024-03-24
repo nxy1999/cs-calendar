@@ -107,13 +107,11 @@ def main():
         try:
             print(f"正在尝试 第{attempt + 1}次: ")
             matches_json = fetch_matches_data()
-            print(f"原始数据: {matches_json}")  # 添加临时打印原始数据
             if not matches_json.strip():
                 print(f"Attempt {attempt + 1}: No data returned, retrying...")
                 # 不立即continue，而是在循环末尾统一处理等待
             else:
                 matches = json.loads(matches_json)
-                print(matches)
                 return matches
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
