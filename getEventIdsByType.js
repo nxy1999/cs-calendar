@@ -37,8 +37,8 @@ function getEventIdsByType(eventTypeStr) {
 //     console.log(eventIds); // 这里处理只属于Major类型的事件的ID
 // });
 
-// getEventIdsByType('Major')
-//     .then(eventIds => console.log('Event IDs:', eventIds))
-//     .catch(error => console.error('Error:', error));
+getEventIdsByType('Major')
+    .then(eventIds => console.log('Event IDs:', eventIds))
+    .catch(error => console.error('Error:', error));
 
 module.exports = { getEventIdsByType };
