@@ -33,6 +33,7 @@ async function getMatches() {
   }
 }
 
-getMatches().catch(error => {
-  console.error("Unhandled error in getMatches:", error);
-});
+// 测试数据
+// getMatches().catch(error => {
+//   console.error("Unhandled error in getMatches:", error);
+// });

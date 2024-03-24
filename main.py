@@ -63,11 +63,11 @@ def create_event(match, timezone):
 
 def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone=pytz.timezone('Asia/Shanghai')):
     """
-   处理比赛数据，更新日历文件。
+    处理比赛数据，更新日历文件。
 
-   :param matches: 包含比赛信息的列表。
-   :param ics_file_name: 日历文件的名称。
-   :param timezone: 要使用的时区。
+    :param matches: 包含比赛信息的列表。
+    :param ics_file_name: 日历文件的名称。
+    :param timezone: 要使用的时区。
     """
     try:
         with open(ics_file_name, 'r', encoding='utf8') as file:
@@ -101,19 +101,19 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
 
 
 def main():
-    max_attempts = 10
+    max_attempts = 6
     delay = 1
     for attempt in range(max_attempts):
         try:
             print(f"正在尝试 第{attempt + 1}次: ")
             matches_json = fetch_matches_data()
             print(f"原始数据: {matches_json}")  # 添加临时打印原始数据
-            print(matches_json)
             if not matches_json.strip():
                 print(f"Attempt {attempt + 1}: No data returned, retrying...")
                 # 不立即continue，而是在循环末尾统一处理等待
             else:
                 matches = json.loads(matches_json)
+                print(matches)
                 return matches
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
