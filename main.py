@@ -134,17 +134,21 @@ def main():
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
     # 测试数据
-    # matches_data = [
-    #     {"id": 2370597, "stars": 1, "team1": {"name": "ENCE", "id": 4869}, "team2": {"name": "Imperial", "id": 9455},
-    #      "format": "bo1", "event": {"id": 7258, "name": "PGL CS2 Major Copenhagen 2024 Opening Stage"}, "live": True},
-    #     {"id": 2370744, "stars": 0, "team1": {"name": "Arrow", "id": 12764},
-    #      "team2": {"name": "SNOGARD Dragons", "id": 4598}, "format": "bo3",
-    #      "event": {"id": 7743, "name": "Fragster League Season 5 Finals"}, "live": True},
-    #     {"id": 2370558, "date": 1710684000000, "stars": 0, "team1": {"name": "SINNERS", "id": 10577},
-    #      "team2": {"name": "UNiTY", "id": 12267}, "format": "bo3",
-    #      "event": {"id": 7726, "name": "Tipsport Winter Cup 2024 Finals"}, "live": False},
-    #     {"id": 2370558, "date": 1710684000000, "stars": 0, "format": "bo3", "event": {"id": 7726, "name": "Tipsport Winter Cup 2024 Finals"}, "live": False}
-    # ]
+    # matches_data = [{"id":2370658,"date":1711281600000,"stars":2,"team1":{"name":"Complexity","id":5005},
+    # "team2":{"name":"FaZe","id":6667},"format":"bo3","event":{"id":null,"name":"PGL CS2 Major Copenhagen 2024"},
+    # "live":false},{"id":2370659,"date":1711292400000,"stars":3,"team1":{"name":"Virtus.pro","id":5378},
+    # "team2":{"name":"G2","id":5995},"format":"bo3","event":{"id":null,"name":"PGL CS2 Major Copenhagen 2024"},
+    # "live":false},{"id":2370660,"date":1711303200000,"stars":2,"team1":{"name":"Natus Vincere","id":4608},
+    # "team2":{"name":"paiN","id":4773},"format":"bo3","event":{"id":null,"name":"PGL CS2 Major Copenhagen 2024"},
+    # "live":false},{"id":2370721,"date":1711641600000,"stars":3,"title":"PGL CS2 Major Copenhagen 2024 -
+    # Quarter-final #1","format":"bo3","live":false},{"id":2370722,"date":1711652400000,"stars":3,"title":"PGL CS2
+    # Major Copenhagen 2024 - Quarter-final #2","format":"bo3","live":false},{"id":2370723,"date":1711728000000,
+    # "stars":3,"title":"PGL CS2 Major Copenhagen 2024 - Quarter-final #3","format":"bo3","live":false},
+    # {"id":2370724,"date":1711738800000,"stars":3,"title":"PGL CS2 Major Copenhagen 2024 - Quarter-final #4",
+    # "format":"bo3","live":false},{"id":2370725,"date":1711814400000,"stars":4,"title":"PGL CS2 Major Copenhagen
+    # 2024 - Semi-final #1","format":"bo3","live":false},{"id":2370726,"date":1711825200000,"stars":4,"title":"PGL
+    # CS2 Major Copenhagen 2024 - Semi-final #2","format":"bo3","live":false},{"id":2370727,"date":1711908000000,
+    # "stars":5,"title":"PGL CS2 Major Copenhagen 2024 - Grand Final","format":"bo3","live":false}]
     matches_data = main()
 
     if matches_data:
