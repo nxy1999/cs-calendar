@@ -37,6 +37,7 @@ def fetch_matches_data():
 
 def main():
     max_attempts = 10
+    delay = 1
     for attempt in range(max_attempts):
         try:
             print(f"正在尝试 第{attempt + 1}次: ")
@@ -51,8 +52,9 @@ def main():
             print(f"Error decoding JSON: {e}")
         except Exception as e:
             print(f"Attempt {attempt + 1} failed: {e}")
-
-        time.sleep(10)
+        finally:
+            time.sleep(delay)
+            delay *= 2
 
     print("获取比赛数据失败")
     raise SystemExit(1)
