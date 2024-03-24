@@ -1,16 +1,10 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:ics.py - http://git.io/lLljaA
-BEGIN:VEVENT
-DESCRIPTION:HLTV: ★★★\nHLTV: 3星推荐\n赛制: bo3\n赛事：PGL CS2 Major Copenhagen 2024
-DTSTART:20240324T150000Z
-SUMMARY:Virtus.pro vs G2
-UID:5bfb76c3-4234-4fbe-a2ff-7d1001a1eecb@5bfb.org
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:HLTV: ★★\nHLTV: 2星推荐\n赛制: bo3\n赛事：PGL CS2 Major Copenhagen 2024
-DTSTART:20240324T180000Z
-SUMMARY:Natus Vincere vs paiN
-UID:be2551f5-589b-497a-a7ea-1598d2ef343b@be25.org
-END:VEVENT
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ics.py - http://git.io/lLljaA
+BEGIN:VEVENT
+DESCRIPTION:HLTV: ★★\nHLTV: 2星推荐\n赛制: bo3\n赛事：PGL CS2 Major Copenhagen 2024
+DTSTART:20240324T173000Z
+SUMMARY:Natus Vincere vs paiN
+UID:b4e26887-a0b3-4a1e-be8c-ee9c55e237d6@b4e2.org
+END:VEVENT
 END:VCALENDAR
