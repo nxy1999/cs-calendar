@@ -8,7 +8,7 @@ const { HLTV } = require('hltv')
 //   console.log(JSON.stringify(matches));
 // })
 
-const { getEventIdsByType } = require('./getEventIdsByType');
+const { getEventIdsByType } = require('./getEventIdsByType.js');
 
 // 获取事件ID
 // getEventIdsByType().then(eventIds => {
@@ -17,14 +17,19 @@ const { getEventIdsByType } = require('./getEventIdsByType');
 //     });
 // });
 
-// 假设这是在一个异步函数中
+/**
+ * 获取指定类型的Major事件ID，然后获取这些事件的比赛信息
+ * @returns {Promise<void>}
+ */
 async function getMatches() {
   try {
-    const eventIds = await getEventIdsByType('MAJOR');
-    const matches = await HLTV.getMatches({ eventIds: eventIds });
+    // 获取事件ID
+    const eventIds = await getEventIdsByType('Major');
+    // 获取所有事件的比赛信息
+    const matches = await HLTV.getMatches({ eventIds });
     console.log(JSON.stringify(matches));
   } catch (error) {
-    console.error(error);
+    console.error("An error occurred while getting the event IDs or matches:", error);
   }
 }
 
