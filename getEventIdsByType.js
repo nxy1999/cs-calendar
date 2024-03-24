@@ -21,10 +21,7 @@ const { HLTV } = require('hltv');
 // module.exports = { getEventIds };
 
 // 将获取特定类型事件ID的逻辑封装为一个函数
-function getEventIdsByType(eventTypeString) {
-    // 使用fromText将字符串转换为EventType
-    const eventType = eventTypeString;
-
+function getEventIdsByType(eventType) {
     if (eventType) {
         return HLTV.getEvents({ eventType }).then(res => {
             // 处理只属于特定类型的事件
@@ -35,7 +32,7 @@ function getEventIdsByType(eventTypeString) {
             return []; // 在发生错误时返回一个空数组
         });
     } else {
-        console.error('Invalid event type string:', eventTypeString);
+        console.error('Invalid event type string:', eventType);
         return Promise.resolve([]); // 返回一个解析为空数组的Promise，保持函数返回类型一致
     }
 }
