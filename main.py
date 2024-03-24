@@ -125,7 +125,7 @@ def main():
             print(f"Unexpected error during Attempt {attempt + 1}: {e}")
             break  # 添加break语句，避免不必要的等待
 
-    finally:
+        finally:
             if attempt < max_attempts - 1:
                 time.sleep(delay)
                 delay *= 2
