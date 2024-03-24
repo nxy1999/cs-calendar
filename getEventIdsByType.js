@@ -31,8 +31,8 @@ function getEventIdsByType(eventTypeStr) {
     });
 }
 
-// 使用封装的函数获取特定类型的事件ID
-// 测试代码
+// 以下为测试代码，展示如何使用getEventIdsByType函数获取特定类型的事件ID
+// 必须注释掉，以免影响功能代码运行
 // getEventIdsByType('MAJOR').then(eventIds => {
 //     console.log(eventIds); // 这里处理只属于Major类型的事件的ID
 // });
