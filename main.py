@@ -103,7 +103,7 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
 
 def main():
     max_attempts = 10
-    delay = 1
+    delay = 20
     for attempt in range(max_attempts):
         try:
             print(f"正在尝试 第{attempt + 1}次: ")
@@ -126,7 +126,6 @@ def main():
         finally:
             if attempt < max_attempts - 1:
                 time.sleep(delay)
-                delay *= 2
 
     print("获取比赛数据失败")
     raise SystemExit(1)
