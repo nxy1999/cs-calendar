@@ -86,7 +86,7 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
         old_ics_content = None
 
     # old_first_summary = extract_first_summary(old_ics_content)
-    old_all_summary = extract_all_summaries(old_ics_content)
+    # old_all_summary = extract_all_summaries(old_ics_content)
 
     cal = Calendar()
 
@@ -97,12 +97,12 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
 
         event = create_event(match, timezone)
         if event:
-            # 检查新建的 event 的 name 是否已经存在于旧的 summary 列表中
-            if event.name in old_all_summary:
-                print(f"SUMMARY '{event.name}' already exists in the calendar. No update needed.")
-                return
-            else:
-                print(f"SUMMARY '{event.name}' not found in the calendar. Adding...")
+            # # 检查新建的 event 的 name 是否已经存在于旧的 summary 列表中
+            # if event.name in old_all_summary:
+            #     print(f"SUMMARY '{event.name}' already exists in the calendar. No update needed.")
+            #     return
+            # else:
+            #     print(f"SUMMARY '{event.name}' not found in the calendar. Adding...")
             events_to_add.append(event)
     for event in events_to_add:
         cal.events.add(event)
