@@ -24,6 +24,15 @@ def extract_first_summary(ics_content):
     return None
 
 
+def extract_all_summaries(ics_content):
+    summaries = []
+    for line in ics_content.splitlines():
+        if line.startswith("SUMMARY:"):
+            summary = line[len("SUMMARY:"):].strip()
+            summaries.append(summary)
+    return summaries
+
+
 def fetch_matches_data():
     """调用Node.js脚本获取比赛数据"""
     node_script = "node getMatches.js"
