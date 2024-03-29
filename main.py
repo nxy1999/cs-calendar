@@ -24,6 +24,7 @@ def extract_first_summary(ics_content):
     return None
 
 
+# 提取ICS内容中所有SUMMARY的值
 def extract_all_summaries(ics_content):
     summaries = []
     for line in ics_content.splitlines():
@@ -84,7 +85,8 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
     except FileNotFoundError:
         old_ics_content = None
 
-    old_first_summary = extract_first_summary(old_ics_content)
+    # old_first_summary = extract_first_summary(old_ics_content)
+    old_all_summary = extract_all_summaries(old_ics_content)
 
     cal = Calendar()
 
@@ -95,10 +97,13 @@ def process_matches_data(matches, ics_file_name='matches_calendar.ics', timezone
 
         event = create_event(match, timezone)
         if event:
-            events_to_add.append(event)
-            if old_first_summary and old_first_summary == event.name:
-                print("First SUMMARY unchanged. No update needed.")
+            # 检查新建的 event 的 name 是否已经存在于旧的 summary 列表中
+            if event.name in old_all_summary:
+                print(f"SUMMARY '{event.name}' already exists in the calendar. No update needed.")
                 return
+            else:
+                print(f"SUMMARY '{event.name}' not found in the calendar. Adding...")
+            events_to_add.append(event)
     for event in events_to_add:
         cal.events.add(event)
 

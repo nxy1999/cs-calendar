@@ -112,4 +112,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 /act.exe
-/e -i COMMIT-ID~1
