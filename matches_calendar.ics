@@ -4,7 +4,7 @@ PRODID:ics.py - http://git.io/lLljaA
 BEGIN:VEVENT
 DESCRIPTION:HLTV: ★★★★★\nHLTV: 5星推荐\n赛制: bo3\n赛事：PGL CS2 Major Copenhagen 2024
 DTSTART:20240331T180000Z
-SUMMARY:FaZe vs Natus Vincere/G2 winner
-UID:fea66b70-32ba-4063-aba4-142473c04cb9@fea6.org
+SUMMARY:FaZe vs Natus Vincere
+UID:41d679a9-c46f-4d86-89ea-4a2ebbfaf94c@41d6.org
 END:VEVENT
 END:VCALENDAR
