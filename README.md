@@ -29,3 +29,4 @@ CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户�
 
 ## 感谢
 https://github.com/gigobyte/HLTV
+https://github.com/adamgibbons/ics
