@@ -6,31 +6,8 @@ const ics = require('ics')
 const { getMatches } = require('./getMatches.js');
 const fs = require("fs");
 
-
 function starsToSymbols(stars) {
     return '★'.repeat(stars);
-}
-
-function extractFirstSummary(icsContent) {
-    const lines = icsContent.split('\n');
-    for (let line of lines) {
-        if (line.startsWith("SUMMARY:")) {
-            return line.substring("SUMMARY:".length).trim();
-        }
-    }
-    return null;
-}
-
-function extractAllSummaries(icsContent) {
-    const summaries = [];
-    const lines = icsContent.split('\n');
-    for (let line of lines) {
-        if (line.startsWith("SUMMARY:")) {
-            const summary = line.substring("SUMMARY:".length).trim();
-            summaries.push(summary);
-        }
-    }
-    return summaries;
 }
 
 async function fetchMatchesData() {
@@ -48,6 +25,10 @@ async function fetchMatchesData() {
 }
 
 function createEvent(match, timezone) {
+    if (!match.team1 || !match.team1.name || !match.team2 || !match.team2.name) {
+        console.error('缺少必要的队伍名称信息');
+        return null; // 或者 return undefined，取决于你的业务逻辑需求
+    }
     let timestamp = match.date || 0;
     const beginTime = moment.unix(timestamp / 1000).tz(timezone);
 
@@ -57,26 +38,14 @@ function createEvent(match, timezone) {
     const stars = match.stars || 0;
     const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`;
 
-    const event = {}; // JavaScript中模拟Event对象
-    event.begin = beginTime.toISOString();
-    event.title = eventTitle;
-    event.description = eventDescription;
-
-    return event;
+    return {
+        start: beginTime.toISOString(),
+        title: eventTitle,
+        description: eventDescription,
+    };
 }
 
 async function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timezone = 'Asia/Shanghai') {
-    let oldIcsContent;
-    try {
-        oldIcsContent = await fs.promises.readFile(icsFileName, 'utf8');
-    } catch (err) {
-        if (err.code === 'ENOENT') {
-            oldIcsContent = null;
-        } else {
-            throw err;
-        }
-    }
-
     // 使用数组存储events
     const calEvents = [];
 
@@ -90,12 +59,15 @@ async function processMatchesData(matches, icsFileName = 'matches_calendar.ics',
             calEvents.push(event);
         }
     }
-
+    const { error, value } = ics.createEvents(calEvents)
+    if (error) {
+      console.log(error)
+      return
+    }
     // 这里假设已有一个处理并写入ICS文件的方法，例如using the ical library
-    // ...
     try {
         // 将events数组写入ICS文件
-        await writeFileSync(icsFileName, calEvents);
+        await writeFileSync(icsFileName, value);
         console.log("日历文件创建成功！");
     } catch (e) {
         console.error(`Error writing to ${icsFileName}: ${e}`);
@@ -112,9 +84,9 @@ async function main() {
             const matchesJson = await fetchMatchesData();
             console.log(matchesJson)
             if (!matchesJson) {
-                console.log(`Attempt ${attempt + 1}: No data returned, retrying...`);
+                console.log(`尝试 ${attempt + 1}: No data returned, retrying...`);
             } else {
-                return JSON.parse(matchesJson);
+                return matchesJson;
             }
         } catch (e) {
             if (e instanceof SyntaxError && e.name === 'JSONDecodeError') {
