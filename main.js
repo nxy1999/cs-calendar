@@ -8,10 +8,20 @@ const { getEventIdsByType } = require('./getEventIdsByType.js');
 const fs = require("fs");
 const {EventType} = require("hltv/lib/shared/EventType");
 
+/**
+ * 将星级评价转换为星号符号字符串。
+ * @param {number} stars - 代表星级评价的数字，范围应为非负整数。
+ * @returns {string} 返回一个由星号("★")重复组成的字符串，长度等于输入的星级评价数。
+ */
 function starsToSymbols(stars) {
     return '★'.repeat(stars);
 }
 
+/**
+ * 异步获取比赛数据
+ * @param {string} eventType 事件类型，用于筛选比赛
+ * @returns {Promise<Array>} 返回一个比赛数据的数组
+ */
 async function fetchMatchesData(eventType) {
     try {
          // 获取事件ID
@@ -28,6 +38,18 @@ async function fetchMatchesData(eventType) {
     }
 }
 
+/**
+ * 创建一个事件对象，代表一场赛事
+ * @param {Object} match 包含赛事基本信息的对象
+ *        - team1: 包含队伍1信息的对象，必须有name属性
+ *        - team2: 包含队伍2信息的对象，必须有name属性
+ *        - date: 赛事日期的时间戳（毫秒），可选
+ *        - stars: 赛事星级，可选
+ *        - format: 赛事赛制，可选
+ *        - event: 包含赛事名称的对象，可选
+ * @param {String} timezone 事件所在时区
+ * @returns {Object|null} 返回一个包含开始时间、标题和描述的事件对象，如果缺少必要信息则返回null
+ */
 function createEvent(match, timezone) {
     if (!match.team1 || !match.team1.name || !match.team2 || !match.team2.name) {
         console.error('缺少必要的队伍名称信息');
@@ -49,6 +71,12 @@ function createEvent(match, timezone) {
     };
 }
 
+/**
+ * 将比赛数据转换为ICS文件
+ * @param {Array} matches - 包含比赛数据的数组
+ * @param {string} icsFileName - ICS文件名
+ * @param {string} timezone - 时区
+ */
 async function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timezone = 'Asia/Shanghai') {
     // 使用数组存储events
     const calEvents = [];
@@ -78,6 +106,11 @@ async function processMatchesData(matches, icsFileName = 'matches_calendar.ics',
     }
 }
 
+/**
+ * 主函数，用于异步获取特定事件类型的比赛数据。
+ * @param {string} eventType - 事件类型标识，用于指定要获取比赛数据的类型。
+ * @returns {Promise<any>} - 返回一个Promise，成功时解析为比赛数据的JSON对象，失败时则不会返回任何内容。
+ */
 async function main(eventType) {
     const maxAttempts = 10;
     const delay = 20;
@@ -111,6 +144,11 @@ async function main(eventType) {
     process.exit(1);
 }
 
+/**
+ * 主函数异步执行流程
+ * 无参数
+ * 无明确返回值，但依赖于外部函数的返回值来决定流程的推进
+ */
 (async () => {
     try {
         // 测试数据
