@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node main.js",
     "match": "node getMatches.js",
-    "event": "node getEventIdsByType.js",
+    "event": "node getEventIdsByType.js"
   },
   "keywords": [
     "CS",
