@@ -16,10 +16,10 @@ CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户�
 - [x] 时区问题
 - [x] 如果获取到的数据没有更改，日历文件也不修改
 - [x] github iOS端手动更新问题
-
+- [x] 过滤International LAN赛事
 
 ## 目前还没有实现的内容
-- [ ] 自动获取下一次赛事的id？怎么过滤赛事
+- [ ] 换用js语法，抛弃Python
 
 
 ## 未来可能会添加的内容
