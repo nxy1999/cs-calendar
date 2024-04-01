@@ -17,6 +17,18 @@ function starsToSymbols(stars) {
     return '★'.repeat(stars);
 }
 
+function extractAllSummaries(icsContent) {
+    const summaries = [];
+    for (const line of icsContent.split('\n')) {
+        if (line.startsWith("SUMMARY:")) {
+            const summary = line.slice("SUMMARY:".length).trim();
+            summaries.push(summary);
+        }
+    }
+    return summaries;
+}
+
+
 /**
  * 异步获取比赛数据
  * @param {string} eventType 事件类型，用于筛选比赛
@@ -77,7 +89,27 @@ function createEvent(match, timezone) {
  * @param {string} icsFileName - ICS文件名
  * @param {string} timezone - 时区
  */
-function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timezone = 'Asia/Shanghai') {
+async function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timezone = 'Asia/Shanghai') {
+    let oldIcsContent;
+    const fs = require('fs').promises; // Node.js 中引入fs模块并使用promises API
+    try {
+        oldIcsContent = await fs.readFile(icsFileName, 'utf8');
+    } catch (error) {
+        if (error.code === 'ENOENT') { // 文件未找到错误
+            console.warn(`File not found: ${icsFileName}`);
+            oldIcsContent = null;
+        } else if (error.code === 'EACCES') { // 文件权限错误
+            console.error(`Permission denied: ${icsFileName}`);
+            throw error; // 可以考虑处理方式更为优雅
+        } else {
+            console.error(`An error occurred while reading the file: ${icsFileName}. Error: ${error.message}`);
+            throw error; // 其他错误则重新抛出
+        }
+    }
+
+    const oldEvents = extractAllSummaries(oldIcsContent);
+    // console.log(oldEvents)
+
     // 使用数组存储events
     const calEvents = [];
 
@@ -85,12 +117,22 @@ function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timez
         if (match.live) {
             continue;
         }
-
         const event = createEvent(match, timezone);
         if (event) {
             calEvents.push(event);
         }
     }
+    // const caltitle = calEvents.map(e => e.title)
+    // console.log(caltitle)
+    // if (oldEvents === calEvents.map(e => e.title)){
+    //     console.log("日历文件没有变化，跳过更新！");
+    //     return;
+    // }
+    if (oldEvents.length === calEvents.length && oldEvents.every((value, index) => value === calEvents[index].title)) {
+        console.log("日历文件没有变化，跳过更新！");
+        return;
+    }
+
     const {error, value} = ics.createEvents(calEvents)
     if (error) {
         console.log(error)
