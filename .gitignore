@@ -112,3 +112,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 /act.exe
+/requirements.txt
+/main.py
