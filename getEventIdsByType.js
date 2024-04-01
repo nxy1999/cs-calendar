@@ -1,24 +1,24 @@
 const { HLTV } = require('hltv')
 
-// 导入 EventType 枚举和 fromText 函数
-const { EventType, fromText } = require('hltv/lib/shared/EventType');
+// 导入 EventType 枚举
+const { EventType } = require('hltv/lib/shared/EventType');
 
 /**
  * 将获取特定类型事件ID的逻辑封装为一个函数
- * @param {string} eventTypeStr 事件类型的字符串表示
  * @returns {Promise<Array<number>>} 事件ID的数组
+ * @param eventType
  */
-function getEventIdsByType(eventTypeStr) {
-    // 显式的输入验证
-    if (!eventTypeStr || typeof eventTypeStr !== 'string') {
-        console.error('Invalid input: eventTypeStr must be a non-empty string');
-        return Promise.resolve([]);
-    }
-    const eventType = fromText(eventTypeStr);
+function getEventIdsByType(eventType) {
+    // // 显式的输入验证
+    // if (!eventTypeStr || typeof eventTypeStr !== 'string') {
+    //     console.error('Invalid input: eventTypeStr must be a non-empty string');
+    //     return Promise.resolve([]);
+    // }
+    // const eventType = fromText(eventTypeStr);
 
     if (!eventType) {
-        console.error(`Invalid event type string: ${eventTypeStr}`);
-        return Promise.reject(new Error(`Invalid event type string: ${eventTypeStr}`));
+        console.error(`Invalid event type string: ${eventType}`);
+        return Promise.reject(new Error(`Invalid event type string: ${eventType}`));
     }
 
     return HLTV.getEvents({ eventType }).then(res => {
@@ -33,11 +33,8 @@ function getEventIdsByType(eventTypeStr) {
 
 // 以下为测试代码，展示如何使用getEventIdsByType函数获取特定类型的事件ID
 // 必须注释掉，以免影响功能代码运行
-// getEventIdsByType('MAJOR').then(eventIds => {
-//     console.log(eventIds); // 这里处理只属于Major类型的事件的ID
-// });
 
-// getEventIdsByType('Major')
+// getEventIdsByType(EventType.InternationalLAN)
 //     .then(eventIds => console.log('Event IDs:', eventIds))
 //     .catch(error => console.error('Error:', error));
 
