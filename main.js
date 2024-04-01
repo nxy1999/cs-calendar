@@ -27,7 +27,7 @@ async function fetchMatchesData(eventType) {
          // 获取事件ID
         const eventIds = await getEventIdsByType(eventType);
         const matches = await getMatches(eventIds)
-        console.log(matches);
+        // console.log(matches);
         return matches;
     }
     catch (e) {
@@ -77,7 +77,7 @@ function createEvent(match, timezone) {
  * @param {string} icsFileName - ICS文件名
  * @param {string} timezone - 时区
  */
-async function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timezone = 'Asia/Shanghai') {
+function processMatchesData(matches, icsFileName = 'matches_calendar.ics', timezone = 'Asia/Shanghai') {
     // 使用数组存储events
     const calEvents = [];
 
@@ -91,15 +91,14 @@ async function processMatchesData(matches, icsFileName = 'matches_calendar.ics',
             calEvents.push(event);
         }
     }
-    const { error, value } = ics.createEvents(calEvents)
+    const {error, value} = ics.createEvents(calEvents)
     if (error) {
-      console.log(error)
-      return
+        console.log(error)
+        return
     }
-    // 这里假设已有一个处理并写入ICS文件的方法，例如using the ical library
     try {
         // 将events数组写入ICS文件
-        await writeFileSync(icsFileName, value);
+        writeFileSync(icsFileName, value);
         console.log("日历文件创建成功！");
     } catch (e) {
         console.error(`Error writing to ${icsFileName}: ${e}`);
@@ -119,7 +118,7 @@ async function main(eventType) {
         try {
             console.log(`正在尝试 第${attempt + 1}次:`);
             const matchesJson = await fetchMatchesData(eventType);
-            console.log(matchesJson)
+            // console.log(matchesJson)
             if (!matchesJson) {
                 console.log(`尝试 ${attempt + 1}: No data returned, retrying...`);
             } else {
