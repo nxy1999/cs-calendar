@@ -1,7 +1,7 @@
 const { HLTV } = require('hltv')
 
 const { getEventIdsByType } = require('./getEventIdsByType.js');
-
+const { EventType } = require('hltv/lib/shared/EventType');
 /**
  * 获取指定类型的Major事件ID，然后获取这些事件的比赛信息
  * @returns {Promise<void>} 不返回任何内容
@@ -9,7 +9,7 @@ const { getEventIdsByType } = require('./getEventIdsByType.js');
 async function getMatches() {
   try {
     // 获取事件ID
-    const eventIds = await getEventIdsByType('Major');
+    const eventIds = await getEventIdsByType(EventType.InternationalLAN);
     // 获取所有事件的比赛信息
     const matches = await HLTV.getMatches({ eventIds });
     console.log(JSON.stringify(matches));
