@@ -6,7 +6,9 @@
   "scripts": {
     "build": "node main.js",
     "match": "node getMatches.js",
-    "event": "node getEventIdsByType.js"
+    "event": "node getEventIdsByType.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "keywords": [
     "CS",
