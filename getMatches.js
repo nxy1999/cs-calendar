@@ -23,3 +23,5 @@ async function getMatches() {
 getMatches().catch(error => {
   console.error("getMatches函数中发生未处理的错误:", error);
 });
+
+module.exports = { getMatches };
