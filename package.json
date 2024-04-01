@@ -7,10 +7,16 @@
     "match": "node getMatches.js",
     "event": "node getEventIdsByType.js"
   },
-  "keywords": ["CS", "calendar", "ICS", "events"],
+  "keywords": [
+    "CS",
+    "calendar",
+    "ICS",
+    "events"
+  ],
   "author": "nxy 2924157356@qq.com",
   "license": "ISC",
   "dependencies": {
-    "hltv": "^3.5.0"
+    "hltv": "^3.5.0",
+    "ics": "^3.7.2"
   }
 }
