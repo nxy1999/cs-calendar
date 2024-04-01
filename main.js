@@ -4,15 +4,19 @@ const {writeFileSync} = require('fs')
 const ics = require('ics')
 
 const { getMatches } = require('./getMatches.js');
+const { getEventIdsByType } = require('./getEventIdsByType.js');
 const fs = require("fs");
+const {EventType} = require("hltv/lib/shared/EventType");
 
 function starsToSymbols(stars) {
     return '★'.repeat(stars);
 }
 
-async function fetchMatchesData() {
+async function fetchMatchesData(eventType) {
     try {
-        const matches = await getMatches()
+         // 获取事件ID
+        const eventIds = await getEventIdsByType(eventType);
+        const matches = await getMatches(eventIds)
         console.log(matches);
         return matches;
     }
@@ -74,14 +78,14 @@ async function processMatchesData(matches, icsFileName = 'matches_calendar.ics',
     }
 }
 
-async function main() {
+async function main(eventType) {
     const maxAttempts = 10;
     const delay = 20;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
         try {
             console.log(`正在尝试 第${attempt + 1}次:`);
-            const matchesJson = await fetchMatchesData();
+            const matchesJson = await fetchMatchesData(eventType);
             console.log(matchesJson)
             if (!matchesJson) {
                 console.log(`尝试 ${attempt + 1}: No data returned, retrying...`);
@@ -111,8 +115,8 @@ async function main() {
     try {
         // 测试数据
         // const matchesData = JSON.parse([...]); // 这里应放入与Python中类似的JSON字符串
-
-        const matchesData = await main();
+        const eventType = EventType.InternationalLAN; // 测试eventType
+        const matchesData = await main(eventType);
         if (matchesData) {
             await processMatchesData(matchesData);
         }
