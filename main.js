@@ -83,6 +83,26 @@ function createEvent(match, timezone) {
     };
 }
 
+
+
+// 提取错误处理逻辑到单独函数，提高代码可读性
+function handleFileReadError(error, icsFileName) {
+    if (error.code === 'ENOENT') {
+        console.warn(`File not found: ${icsFileName}`);
+    } else if (error.code === 'EACCES') {
+        console.error(`Permission denied: ${icsFileName}`);
+    } else {
+        console.error(`An error occurred while reading the file: ${icsFileName}. Error: ${error.message}`);
+    }
+}
+
+// 比较两个事件列表是否相等的函数，提高性能效率
+function areEventsEqual(oldEvents, newEvents) {
+    if (oldEvents.length !== newEvents.length) return false;
+
+    // 优化比较逻辑，避免不必要的索引查找
+    return oldEvents.every((oldEvent, index) => oldEvent === newEvents[index].title);
+}
 /**
  * 将比赛数据转换为ICS文件
  * @param {Array} matches - 包含比赛数据的数组
@@ -95,40 +115,18 @@ async function processMatchesData(matches, icsFileName = 'matches_calendar.ics',
     try {
         oldIcsContent = await fs.readFile(icsFileName, 'utf8');
     } catch (error) {
-        if (error.code === 'ENOENT') { // 文件未找到错误
-            console.warn(`File not found: ${icsFileName}`);
-            oldIcsContent = null;
-        } else if (error.code === 'EACCES') { // 文件权限错误
-            console.error(`Permission denied: ${icsFileName}`);
-            throw error; // 可以考虑处理方式更为优雅
-        } else {
-            console.error(`An error occurred while reading the file: ${icsFileName}. Error: ${error.message}`);
-            throw error; // 其他错误则重新抛出
-        }
+        handleFileReadError(error, icsFileName);
+        return; // 避免后续执行
     }
 
     const oldEvents = extractAllSummaries(oldIcsContent);
     // console.log(oldEvents)
 
     // 使用数组存储events
-    const calEvents = [];
+    const calEvents = matches.filter(match => !match.live).map(match => createEvent(match, timezone)).filter(Boolean);
 
-    for (const match of matches) {
-        if (match.live) {
-            continue;
-        }
-        const event = createEvent(match, timezone);
-        if (event) {
-            calEvents.push(event);
-        }
-    }
-    // const caltitle = calEvents.map(e => e.title)
-    // console.log(caltitle)
-    // if (oldEvents === calEvents.map(e => e.title)){
-    //     console.log("日历文件没有变化，跳过更新！");
-    //     return;
-    // }
-    if (oldEvents.length === calEvents.length && oldEvents.every((value, index) => value === calEvents[index].title)) {
+    // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
+    if (oldEvents.length === calEvents.length && areEventsEqual(oldEvents, calEvents)) {
         console.log("日历文件没有变化，跳过更新！");
         return;
     }
@@ -140,7 +138,7 @@ async function processMatchesData(matches, icsFileName = 'matches_calendar.ics',
     }
     try {
         // 将events数组写入ICS文件
-        writeFileSync(icsFileName, value);
+        await fs.writeFile(icsFileName, value);
         console.log("日历文件创建成功！");
     } catch (e) {
         console.error(`Error writing to ${icsFileName}: ${e}`);
