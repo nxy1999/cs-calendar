@@ -76,7 +76,7 @@ function createEvent(match, timezone) {
   const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
 
   return {
-    start: beginTime.toISOString(),
+    start: beginTime.format("YYYYMMDDTHHmmss") + "Z",
     title: eventTitle,
     description: eventDescription,
   }
