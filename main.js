@@ -144,12 +144,22 @@ async function processMatchesData(
     console.log("日历文件没有变化，跳过更新！")
     return
   }
+  try {
+    const { error, value } = ics.createEvents(calEvents)
 
-  const { error, value } = ics.createEvents(calEvents)
-  if (error) {
-    console.log(error)
-    return
+    if (error) {
+      console.error("Failed to create events:", error) // 简化错误输出，保留基本的错误信息展示
+      return
+    }
+
+    // 如果有必要，对value进行进一步的处理或验证
+    // 此处省略具体实现，假设我们简单地打印value的内容
+    // 实际应用中，应该根据value的结构进行相应的处理
+    console.log("Events created successfully:", value)
+  } catch (exception) {
+    console.error("Exception occurred while creating events:", exception) // 简化异常输出，保留基本的异常信息展示
   }
+
   try {
     // 将events数组写入ICS文件
     await fs.writeFile(icsFileName, value)
