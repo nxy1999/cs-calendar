@@ -157,9 +157,7 @@ async function fetchMatchesData(eventType) {
   try {
     // 获取事件ID
     const eventIds = await getEventIdsByType(eventType)
-    const matches = await getMatches(eventIds)
-    // console.log(matches);
-    return matches
+    return await getMatches(eventIds)
   } catch (e) {
     // 优化错误处理，打印更详细的错误信息
     console.error(
