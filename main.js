@@ -117,6 +117,7 @@ async function processMatchesData(
 ) {
   let oldIcsContent
   const fs = require("fs").promises // Node.js 中引入fs模块并使用promises API
+  console.log("正在读取旧日历文件...")
   try {
     oldIcsContent = await fs.readFile(icsFileName, "utf8")
   } catch (error) {
@@ -185,7 +186,6 @@ async function main(eventType) {
       } else {
         console.error(`Unexpected error during Attempt ${attempt + 1}: ${e}`)
       }
-    } finally {
       if (attempt < maxAttempts - 1) {
         await new Promise((resolve) => setTimeout(resolve, delay * 1000))
       }
@@ -207,6 +207,7 @@ async function main(eventType) {
     // const matchesData = JSON.parse([...]); // 这里应放入与Python中类似的JSON字符串
     const eventType = EventType.InternationalLAN // 测试eventType
     const matchesData = await main(eventType)
+    console.log("获取比赛数据成功")
     if (matchesData) {
       await processMatchesData(matchesData)
     }
