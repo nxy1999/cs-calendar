@@ -27,27 +27,6 @@ function extractAllSummaries(icsContent) {
   return summaries
 }
 
-/**
- * 异步获取比赛数据
- * @param {string} eventType 事件类型，用于筛选比赛
- * @returns {Promise<Array>} 返回一个比赛数据的数组
- */
-async function fetchMatchesData(eventType) {
-  try {
-    // 获取事件ID
-    const eventIds = await getEventIdsByType(eventType)
-    const matches = await getMatches(eventIds)
-    // console.log(matches);
-    return matches
-  } catch (e) {
-    // 优化错误处理，打印更详细的错误信息
-    console.error(
-      `An error occurred during fetching matches data: ${e.message}`,
-    )
-    // 确保错误被抛出，以便调用者可以处理
-    throw e
-  }
-}
 
 /**
  * 创建一个事件对象，代表一场赛事
@@ -168,6 +147,29 @@ async function processMatchesData(
     console.error(`Error writing to ${icsFileName}: ${e}`)
   }
 }
+
+/**
+ * 异步获取比赛数据
+ * @param {string} eventType 事件类型，用于筛选比赛
+ * @returns {Promise<Array>} 返回一个比赛数据的数组
+ */
+async function fetchMatchesData(eventType) {
+  try {
+    // 获取事件ID
+    const eventIds = await getEventIdsByType(eventType)
+    const matches = await getMatches(eventIds)
+    // console.log(matches);
+    return matches
+  } catch (e) {
+    // 优化错误处理，打印更详细的错误信息
+    console.error(
+      `An error occurred during fetching matches data: ${e.message}`,
+    )
+    // 确保错误被抛出，以便调用者可以处理
+    throw e
+  }
+}
+
 
 /**
  * 主函数，用于异步获取特定事件类型的比赛数据。
