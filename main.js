@@ -63,7 +63,7 @@ async function fetchMatchesData(eventType) {
  */
 function createEvent(match, timezone) {
   if (!match.team1 || !match.team1.name || !match.team2 || !match.team2.name) {
-    console.error("缺少必要的队伍名称信息")
+    console.error("缺少必要的队伍名称信息", match.id)
     return null // 或者 return undefined，取决于你的业务逻辑需求
   }
   const timestamp = match.date || 0
