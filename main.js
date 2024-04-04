@@ -123,16 +123,18 @@ async function processMatchesData(
     handleFileReadError(error, icsFileName)
     return // 避免后续执行
   }
-
+  console.log("正在提取旧日历文件标题...")
   const oldEvents = extractAllSummaries(oldIcsContent)
   // console.log(oldEvents)
 
+  console.log("正在创建新事件列表...")
   // 使用数组存储events
   const calEvents = matches
     .filter((match) => !match.live)
     .map((match) => createEvent(match, timezone))
     .filter(Boolean)
 
+  console.log("正在比较旧事件和新事件列表...")
   // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
   if (
     oldEvents.length === calEvents.length &&
