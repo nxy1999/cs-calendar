@@ -5,17 +5,15 @@ const {HLTV} = require("hltv")
  * @returns {Promise<Array<number>>} 事件ID的数组
  * @param eventType
  */
-function getEventIdsByType(eventType) {
+async function getEventIdsByType(eventType) {
     if (!eventType) {
         console.error(`Invalid event type string: ${eventType}`)
         return Promise.reject(new Error(`Invalid event type string: ${eventType}`))
     }
     try {
-        return HLTV.getEvents({eventType})
-            .then((res) => {
-                // 处理只属于特定类型的事件
-                return res.map((event) => event.id)
-            })
+        const eventsResponse = await HLTV.getEvents({eventType})
+        // 处理只属于特定类型的事件
+        return eventsResponse.map((event) => event.id)
     } catch (error) {
         // 处理可能发生的错误
         console.error("Error fetching event IDs by type:", error)
