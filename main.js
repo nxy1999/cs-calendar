@@ -27,7 +27,6 @@ function extractAllSummaries(icsContent) {
   return summaries
 }
 
-
 /**
  * 创建一个事件对象，代表一场赛事
  * @param {Object} match 包含赛事基本信息的对象
@@ -42,7 +41,7 @@ function extractAllSummaries(icsContent) {
  */
 function createEvent(match, timezone) {
   if (!match.team1 || !match.team1.name || !match.team2 || !match.team2.name) {
-    console.error("缺少必要的队伍名称信息", match.id)
+    console.error(`[${new Date().getTime()}] 缺少必要的队伍名称信息`, match.id)
     return null // 或者 return undefined，取决于你的业务逻辑需求
   }
   const timestamp = match.date || 0
@@ -96,31 +95,31 @@ async function processMatchesData(
 ) {
   let oldIcsContent
   const fs = require("fs").promises // Node.js 中引入fs模块并使用promises API
-  console.log("正在读取旧日历文件...")
+  console.log(`[${new Date().getTime()}] 正在读取旧日历文件...`)
   try {
     oldIcsContent = await fs.readFile(icsFileName, "utf8")
   } catch (error) {
     handleFileReadError(error, icsFileName)
     return // 避免后续执行
   }
-  console.log("正在提取旧日历文件标题...")
+  console.log(`[${new Date().getTime()}] 正在提取旧日历文件标题...`)
   const oldEvents = extractAllSummaries(oldIcsContent)
   // console.log(oldEvents)
 
-  console.log("正在创建新事件列表...")
+  console.log(`[${new Date().getTime()}] 正在创建新事件列表...`)
   // 使用数组存储events
   const calEvents = matches
     .filter((match) => !match.live)
     .map((match) => createEvent(match, timezone))
     .filter(Boolean)
 
-  console.log("正在比较旧事件和新事件列表...")
+  console.log(`[${new Date().getTime()}] 正在比较旧事件和新事件列表...`)
   // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
   if (
     oldEvents.length === calEvents.length &&
     areEventsEqual(oldEvents, calEvents)
   ) {
-    console.log("日历文件没有变化，跳过更新！")
+    console.log(`[${new Date().getTime()}] 日历文件没有变化，跳过更新！`)
     return
   }
   try {
@@ -142,7 +141,7 @@ async function processMatchesData(
   try {
     // 将events数组写入ICS文件
     await fs.writeFile(icsFileName, value)
-    console.log("日历文件创建成功！")
+    console.log(`[${new Date().getTime()}] 日历文件创建成功！`)
   } catch (e) {
     console.error(`Error writing to ${icsFileName}: ${e}`)
   }
@@ -168,7 +167,6 @@ async function fetchMatchesData(eventType) {
   }
 }
 
-
 /**
  * 主函数，用于异步获取特定事件类型的比赛数据。
  * @param {string} eventType - 事件类型标识，用于指定要获取比赛数据的类型。
@@ -180,11 +178,13 @@ async function main(eventType) {
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
-      console.log(`正在尝试 第${attempt + 1}次:`)
+      console.log(`[${new Date().getTime()}] 正在尝试 第${attempt + 1}次:`)
       const matchesJson = await fetchMatchesData(eventType)
       // console.log(matchesJson)
       if (!matchesJson) {
-        console.log(`尝试 ${attempt + 1}: No data returned, retrying...`)
+        console.log(
+          `[${new Date().getTime()}] 尝试 ${attempt + 1}: No data returned, retrying...`,
+        )
       } else {
         return matchesJson
       }
@@ -217,7 +217,7 @@ async function main(eventType) {
     // const matchesData = JSON.parse([...]); // 这里应放入与Python中类似的JSON字符串
     const eventType = EventType.InternationalLAN // 测试eventType
     const matchesData = await main(eventType)
-    console.log("获取比赛数据成功")
+    console.log(`[${new Date().getTime()}] 获取比赛数据成功`)
     if (matchesData) {
       await processMatchesData(matchesData)
     }
