@@ -1,5 +1,3 @@
-// JavaScript 中没有内置的datetime模块，需要引入第三方库如moment.js或者dayjs来处理日期时间
-const moment = require("moment-timezone") // 假设我们使用的是moment-timezone库
 const ics = require("ics")
 
 const { getMatches } = require("./getMatches.js")
@@ -36,16 +34,14 @@ function extractAllSummaries(icsContent) {
  *        - stars: 赛事星级，可选
  *        - format: 赛事赛制，可选
  *        - event: 包含赛事名称的对象，可选
- * @param {String} timezone 事件所在时区
  * @returns {Object|null} 返回一个包含开始时间、标题和描述的事件对象，如果缺少必要信息则返回null
  */
-function createEvent(match, timezone) {
+function createEvent(match) {
   if (!match.team1 || !match.team1.name || !match.team2 || !match.team2.name) {
     console.error(`[${new Date().getTime()}] 缺少必要的队伍名称信息`, match.id)
     return null // 或者 return undefined，取决于你的业务逻辑需求
   }
   const timestamp = match.date || 0
-  // const beginTime = moment.unix(timestamp / 1000).tz(timezone)
 
   const team1Name = match.team1.name
   const team2Name = match.team2.name
@@ -54,7 +50,6 @@ function createEvent(match, timezone) {
   const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
 
   return {
-    // start: beginTime.format("YYYYMMDDTHHmmss") + "Z",
     start: timestamp,
     title: eventTitle,
     description: eventDescription,
@@ -87,12 +82,10 @@ function areEventsEqual(oldEvents, newEvents) {
  * 将比赛数据转换为ICS文件
  * @param {Array} matches - 包含比赛数据的数组
  * @param {string} icsFileName - ICS文件名
- * @param {string} timezone - 时区
  */
 async function processMatchesData(
   matches,
   icsFileName = "matches_calendar.ics",
-  timezone = "Asia/Shanghai",
 ) {
   let oldIcsContent
   const fs = require("fs").promises // Node.js 中引入fs模块并使用promises API
@@ -111,7 +104,7 @@ async function processMatchesData(
   // 使用数组存储events
   const calEvents = matches
     .filter((match) => !match.live)
-    .map((match) => createEvent(match, timezone))
+    .map((match) => createEvent(match))
     .filter(Boolean)
 
   console.log(`[${new Date().getTime()}] 正在比较旧事件和新事件列表...`)
