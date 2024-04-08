@@ -134,16 +134,12 @@ async function processMatchesData(
     // 此处省略具体实现，假设我们简单地打印value的内容
     // 实际应用中，应该根据value的结构进行相应的处理
     console.log("Events created successfully:", value)
-  } catch (exception) {
-    console.error("Exception occurred while creating events:", exception) // 简化异常输出，保留基本的异常信息展示
-  }
 
-  try {
     // 将events数组写入ICS文件
     await fs.writeFile(icsFileName, value)
     console.log(`[${new Date().getTime()}] 日历文件创建成功！`)
-  } catch (e) {
-    console.error(`Error writing to ${icsFileName}: ${e}`)
+  } catch (exception) {
+    console.error(`Error during event creation or file writing: ${exception}`)
   }
 }
 
