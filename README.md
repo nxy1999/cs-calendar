@@ -5,7 +5,8 @@ CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户�
 推荐使用订阅方法，不推荐使用ics文件导入
 
 ## 订阅地址
-- GitHub订阅地址（科学上网）：https://github.com/nxy1999/cs-calendar/raw/master/matches_calendar.ics
+- GitHub 订阅地址（科学上网）：https://github.com/nxy1999/cs-calendar/raw/master/matches_calendar.ics
+- Gitee 订阅地址（国内上网）：https://gitee.com/nie-momo/cs-calendar/blob/master/matches_calendar.ics
 
 ## 已经实现的部分
 - [x] 比赛添加标题以及时间
