@@ -45,7 +45,7 @@ function createEvent(match, timezone) {
     return null // 或者 return undefined，取决于你的业务逻辑需求
   }
   const timestamp = match.date || 0
-  const beginTime = moment.unix(timestamp / 1000).tz(timezone)
+  // const beginTime = moment.unix(timestamp / 1000).tz(timezone)
 
   const team1Name = match.team1.name
   const team2Name = match.team2.name
@@ -54,7 +54,8 @@ function createEvent(match, timezone) {
   const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
 
   return {
-    start: beginTime.format("YYYYMMDDTHHmmss") + "Z",
+    // start: beginTime.format("YYYYMMDDTHHmmss") + "Z",
+    start: timestamp,
     title: eventTitle,
     description: eventDescription,
   }
