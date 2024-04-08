@@ -2,7 +2,8 @@
 CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户端订阅
 
 ## 使用方法
-推荐使用订阅方法，不推荐使用ics文件导入
+日历app导入
+推荐使用网址进行订阅，不推荐使用ics文件导入（不能更新）
 
 ## 订阅地址
 - GitHub 订阅地址（科学上网）：https://github.com/nxy1999/cs-calendar/raw/master/matches_calendar.ics
