@@ -29,6 +29,7 @@ CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户�
 
 ## 未来可能会添加的内容
 - [ ] 已经结束的比赛要获取比分吗？
+- [ ] 比赛添加提醒
 
 ## 感谢
 https://github.com/gigobyte/HLTV
