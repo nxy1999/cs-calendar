@@ -10,7 +10,8 @@ async function getResults(eventIds) {
     // const eventIds = await getEventIdsByType(EventType.InternationalLAN);
     // 获取所有事件的比赛信息
     const results = await HLTV.getResults({ eventIds })
-    console.log(JSON.stringify(results))
+    console.log("results", results)
+    // console.log(JSON.stringify(results))
     return results
   } catch (error) {
     console.error("获取事件ID或比赛结果时发生错误:", error)

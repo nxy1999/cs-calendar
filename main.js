@@ -4,6 +4,7 @@ const { getMatches } = require("./getMatches.js")
 const { getEventIdsByType } = require("./getEventIdsByType.js")
 require("fs")
 const { EventType } = require("hltv/lib/shared/EventType")
+const { getResults } = require("./getResults")
 
 /**
  * 将星级评价转换为星号符号字符串。
@@ -45,8 +46,20 @@ function createEvent(match) {
 
   const team1Name = match.team1.name
   const team2Name = match.team2.name
-  const eventTitle = `${team1Name} vs ${team2Name}`
+  let eventTitle = `${team1Name} vs ${team2Name}`
   const stars = match.stars || 0
+
+  if (Object.prototype.hasOwnProperty.call(match, "result")) {
+    const result1 = match.result.team1
+    const result2 = match.result.team2
+    eventTitle = `${team1Name} ${result1}:${result2} ${team2Name}`
+    const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n`
+    return {
+      start: timestamp,
+      title: eventTitle,
+      description: eventDescription,
+    }
+  }
   const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
 
   return {
@@ -81,10 +94,12 @@ function areEventsEqual(oldEvents, newEvents) {
 /**
  * 将比赛数据转换为ICS文件
  * @param {Array} matches - 包含比赛数据的数组
+ * @param results
  * @param {string} icsFileName - ICS文件名
  */
 async function processMatchesData(
   matches,
+  results,
   icsFileName = "matches_calendar.ics",
 ) {
   let oldIcsContent
@@ -98,14 +113,17 @@ async function processMatchesData(
   }
   console.log(`[${new Date().getTime()}] 正在提取旧日历文件标题...`)
   const oldEvents = extractAllSummaries(oldIcsContent)
-  // console.log(oldEvents)
+
+  const calResults = results.map((result) => createEvent(result))
 
   console.log(`[${new Date().getTime()}] 正在创建新事件列表...`)
+
   // 使用数组存储events
   const calEvents = matches
     .filter((match) => !match.live)
     .map((match) => createEvent(match))
     .filter(Boolean)
+  calResults.push(...calEvents)
 
   console.log(`[${new Date().getTime()}] 正在比较旧事件和新事件列表...`)
   // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
@@ -117,7 +135,7 @@ async function processMatchesData(
     return
   }
   try {
-    const { error, value } = ics.createEvents(calEvents)
+    const { error, value } = ics.createEvents(calResults)
 
     if (error) {
       console.error("Failed to create events:", error) // 简化错误输出，保留基本的错误信息展示
@@ -140,14 +158,14 @@ async function processMatchesData(
 
 /**
  * 异步获取比赛数据
- * @param {string} eventType 事件类型，用于筛选比赛
+ * @param eventIds
+ * @param func
  * @returns {Promise<Array>} 返回一个比赛数据的数组
  */
-async function fetchMatchesData(eventType) {
+async function fetchMatchesData(eventIds, func) {
   try {
     // 获取事件ID
-    const eventIds = await getEventIdsByType(eventType)
-    return await getMatches(eventIds)
+    return await func(eventIds)
   } catch (e) {
     // 优化错误处理，打印更详细的错误信息
     console.error(
@@ -161,23 +179,25 @@ async function fetchMatchesData(eventType) {
 /**
  * 主函数，用于异步获取特定事件类型的比赛数据。
  * @param {string} eventType - 事件类型标识，用于指定要获取比赛数据的类型。
+ * @param func
  * @returns {Promise<any>} - 返回一个Promise，成功时解析为比赛数据的JSON对象，失败时则不会返回任何内容。
  */
-async function main(eventType) {
+async function main(eventType, func) {
   const maxAttempts = 10
   const delay = 20
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       console.log(`[${new Date().getTime()}] 正在尝试 第${attempt + 1}次:`)
-      const matchesJson = await fetchMatchesData(eventType)
+      const eventIds = await getEventIdsByType(eventType)
+      const matchesResultsJson = await fetchMatchesData(eventIds, func)
       // console.log(matchesJson)
-      if (!matchesJson) {
+      if (matchesResultsJson) {
+        return matchesResultsJson
+      } else {
         console.log(
           `[${new Date().getTime()}] 尝试 ${attempt + 1}: No data returned, retrying...`,
         )
-      } else {
-        return matchesJson
       }
     } catch (e) {
       if (e instanceof SyntaxError && e.name === "JSONDecodeError") {
@@ -207,10 +227,11 @@ async function main(eventType) {
     // 测试数据
     // const matchesData = JSON.parse([...]); // 这里应放入与Python中类似的JSON字符串
     const eventType = EventType.InternationalLAN // 测试eventType
-    const matchesData = await main(eventType)
+    const matchesData = await main(eventType, getMatches)
     console.log(`[${new Date().getTime()}] 获取比赛数据成功`)
+    const resultsData = await main(eventType, getResults)
     if (matchesData) {
-      await processMatchesData(matchesData)
+      await processMatchesData(matchesData, resultsData)
     }
   } catch (e) {
     console.error("An unexpected error occurred:", e)
