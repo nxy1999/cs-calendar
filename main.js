@@ -128,8 +128,8 @@ async function processMatchesData(
   console.log(`[${new Date().getTime()}] 正在比较旧事件和新事件列表...`)
   // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
   if (
-    oldEvents.length === calEvents.length &&
-    areEventsEqual(oldEvents, calEvents)
+    oldEvents.length === calResults.length &&
+    areEventsEqual(oldEvents, calResults)
   ) {
     console.log(`[${new Date().getTime()}] 日历文件没有变化，跳过更新！`)
     return
@@ -188,7 +188,9 @@ async function main(eventType, func) {
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
-      console.log(`[${new Date().getTime()}] 正在尝试 第${attempt + 1}次:`)
+      console.log(
+        `[${new Date().getTime()}] ${func.name} 正在尝试 第${attempt + 1}次:`,
+      )
       const eventIds = await getEventIdsByType(eventType)
       const matchesResultsJson = await fetchMatchesData(eventIds, func)
       // console.log(matchesJson)
@@ -214,7 +216,8 @@ async function main(eventType, func) {
   }
 
   console.log("获取比赛数据失败")
-  process.exit(1)
+  // process.exit(1)
+  return Promise.reject(new Error("获取比赛数据失败"))
 }
 
 /**
@@ -222,18 +225,25 @@ async function main(eventType, func) {
  * 无参数
  * 无明确返回值，但依赖于外部函数的返回值来决定流程的推进
  */
-;(async () => {
+async function mainExecution() {
   try {
     // 测试数据
     // const matchesData = JSON.parse([...]); // 这里应放入与Python中类似的JSON字符串
     const eventType = EventType.InternationalLAN // 测试eventType
-    const matchesData = await main(eventType, getMatches)
+    // 如果可以并行处理，使用Promise.all；否则保持串行
+    const [matchesData, resultsData] = await Promise.all([
+      main(eventType, getMatches),
+      main(eventType, getResults),
+    ])
+    // const matchesData = await main(eventType, getMatches)
     console.log(`[${new Date().getTime()}] 获取比赛数据成功`)
-    const resultsData = await main(eventType, getResults)
+    // const resultsData = await main(eventType, getResults)
     if (matchesData) {
       await processMatchesData(matchesData, resultsData)
     }
   } catch (e) {
     console.error("An unexpected error occurred:", e)
   }
-})()
+}
+
+mainExecution()
