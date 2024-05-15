@@ -6,13 +6,8 @@ const { HLTV } = require("hltv")
  */
 async function getResults(eventIds) {
   try {
-    // // 获取事件ID
-    // const eventIds = await getEventIdsByType(EventType.InternationalLAN);
-    // 获取所有事件的比赛信息
-    const results = await HLTV.getResults({ eventIds })
-    console.log("results", results)
     // console.log(JSON.stringify(results))
-    return results
+    return await HLTV.getResults({ eventIds })
   } catch (error) {
     console.error("获取事件ID或比赛结果时发生错误:", error)
   }
