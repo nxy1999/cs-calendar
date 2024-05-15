@@ -128,8 +128,8 @@ async function processMatchesData(
   console.log(`[${new Date().getTime()}] 正在比较旧事件和新事件列表...`)
   // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
   if (
-    oldEvents.length === calEvents.length &&
-    areEventsEqual(oldEvents, calEvents)
+    oldEvents.length === calResults.length &&
+    areEventsEqual(oldEvents, calResults)
   ) {
     console.log(`[${new Date().getTime()}] 日历文件没有变化，跳过更新！`)
     return
