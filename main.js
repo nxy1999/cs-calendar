@@ -169,9 +169,6 @@ async function processMatchesData(
       return
     }
 
-    // 如果有必要，对value进行进一步的处理或验证
-    // 此处省略具体实现，假设我们简单地打印value的内容
-    // 实际应用中，应该根据value的结构进行相应的处理
     console.log("Events created successfully:")
     console.log(value)
 
