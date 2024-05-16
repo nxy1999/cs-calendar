@@ -5,6 +5,7 @@ const { getEventIdsByType } = require("./getEventIdsByType.js")
 require("fs")
 const { EventType } = require("hltv/lib/shared/EventType")
 const { getResults } = require("./getResults")
+const { HLTV } = require("hltv")
 
 /**
  * 将星级评价转换为星号符号字符串。
@@ -46,9 +47,12 @@ function createEvent(match) {
 
   const team1Name = match.team1.name
   const team2Name = match.team2.name
-  let eventTitle = `${team1Name} vs ${team2Name}`
   const stars = match.stars || 0
 
+  // 构建基础的 eventTitle
+  let eventTitle = `${team1Name} vs ${team2Name}`
+
+  // 如果存在结果信息，修改 eventTitle 并构建描述
   if (Object.prototype.hasOwnProperty.call(match, "result")) {
     const result1 = match.result.team1
     const result2 = match.result.team2
@@ -60,8 +64,8 @@ function createEvent(match) {
       description: eventDescription,
     }
   }
-  const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
 
+  const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
   return {
     start: timestamp,
     title: eventTitle,
@@ -117,13 +121,36 @@ async function processMatchesData(
   const calResults = results.map((result) => createEvent(result))
 
   console.log(`[${new Date().getTime()}] 正在创建新事件列表...`)
+  // calEvents存储createEvent函数返回的每个事件对象
+  for (const match of matches) {
+    if (match.live) {
+      try {
+        const { date } = await HLTV.getMatch({ id: match.id })
+        match.date = date
+        const event = createEvent(match)
+        if (event) {
+          calResults.push(event)
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching live match data for match ID ${match.id}:`,
+          error,
+        )
+      }
+    } else {
+      const event = createEvent(match)
+      if (event) {
+        calResults.push(event)
+      }
+    }
+  }
 
-  // 使用数组存储events
-  const calEvents = matches
-    .filter((match) => !match.live)
-    .map((match) => createEvent(match))
-    .filter(Boolean)
-  calResults.push(...calEvents)
+  // // 使用数组存储events
+  // const calEvents = matches
+  //   .filter((match) => !match.live)
+  //   .map((match) => createEvent(match))
+  //   .filter(Boolean)
+  // calResults.push(...calEvents)
 
   console.log(`[${new Date().getTime()}] 正在比较旧事件和新事件列表...`)
   // 检查新旧事件列表长度及每个事件标题是否相同，若相同则认为日历文件未发生变化，跳过更新
@@ -157,7 +184,7 @@ async function processMatchesData(
 }
 
 /**
- * 异步获取比赛数据
+ * 异步获取比赛数据或比赛结果
  * @param eventIds
  * @param func
  * @returns {Promise<Array>} 返回一个比赛数据的数组

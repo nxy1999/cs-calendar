@@ -17,12 +17,12 @@ async function getMatches(eventIds) {
   }
 }
 // 测试代码
-// const { getEventIdsByType } = require("./getEventIdsByType.js")
-// const { EventType } = require("hltv/lib/shared/EventType")
-// getEventIdsByType(EventType.InternationalLAN).then((eventIds) => {
-//   getMatches(eventIds)
-//     .then((matches) => console.log(matches))
-//     .catch((error) => console.error("getMatches函数中发生未处理的错误:", error))
-// })
+const { getEventIdsByType } = require("./getEventIdsByType.js")
+const { EventType } = require("hltv/lib/shared/EventType")
+getEventIdsByType(EventType.InternationalLAN).then((eventIds) => {
+  getMatches(eventIds)
+    .then((matches) => console.log(matches))
+    .catch((error) => console.error("getMatches函数中发生未处理的错误:", error))
+})
 
 module.exports = { getMatches }
