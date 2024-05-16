@@ -23,9 +23,9 @@ async function getEventIdsByType(eventType) {
 
 // 以下为测试代码，展示如何使用getEventIdsByType函数获取特定类型的事件ID
 // 导入 EventType 枚举
-// const { EventType } = require("hltv/lib/shared/EventType")
-// getEventIdsByType(EventType.InternationalLAN)
-//   .then((eventIds) => console.log("Event IDs:", eventIds))
-//   .catch((error) => console.error("Error:", error))
+const { EventType } = require("hltv/lib/shared/EventType")
+getEventIdsByType(EventType.InternationalLAN)
+  .then((eventIds) => console.log("Event IDs:", eventIds))
+  .catch((error) => console.error("Error:", error))
 
 module.exports = { getEventIdsByType }
