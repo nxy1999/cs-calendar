@@ -138,4 +138,4 @@ async function processMatchesData(
   }
 }
 
-module.exports = { createEvent, processMatchesData }
+module.exports = { processMatchesData }

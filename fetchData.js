@@ -63,4 +63,4 @@ async function fetchAndProcessData(eventIds, funcName) {
   // process.exit(1)
   return Promise.reject(new Error("获取比赛数据失败"))
 }
-module.exports = { fetchMatchesData, fetchAndProcessData }
+module.exports = { fetchAndProcessData }
