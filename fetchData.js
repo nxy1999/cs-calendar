@@ -1,4 +1,3 @@
-const { getEventIdsByType } = require("./getEventIdsByType.js")
 /**
  * 异步获取比赛数据或比赛结果
  * @param eventIds
@@ -21,11 +20,11 @@ async function fetchMatchesData(eventIds, func) {
 
 /**
  * 主函数，用于异步获取特定事件类型的比赛数据。
- * @param {string} eventType - 事件类型标识，用于指定要获取比赛数据的类型。
+ * @param eventIds
  * @param func
  * @returns {Promise<any>} - 返回一个Promise，成功时解析为比赛数据的JSON对象，失败时则不会返回任何内容。
  */
-async function main(eventType, func) {
+async function fetchAndProcessData(eventIds, func) {
   const maxAttempts = 10
   const delay = 20
 
@@ -34,7 +33,6 @@ async function main(eventType, func) {
       console.log(
         `[${new Date().getTime()}] ${func.name} 正在尝试 第${attempt + 1}次:`,
       )
-      const eventIds = await getEventIdsByType(eventType)
       const matchesResultsJson = await fetchMatchesData(eventIds, func)
       // console.log(matchesJson)
       if (matchesResultsJson) {
@@ -62,4 +60,4 @@ async function main(eventType, func) {
   // process.exit(1)
   return Promise.reject(new Error("获取比赛数据失败"))
 }
-module.exports = { fetchMatchesData, main }
+module.exports = { fetchMatchesData, fetchAndProcessData }
