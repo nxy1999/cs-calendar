@@ -1,11 +1,8 @@
-const { getMatches } = require("./getMatches.js")
 const { EventType } = require("hltv/lib/shared/EventType")
-const { getResults } = require("./getResults")
 const { fetchAndProcessData } = require("./fetchData")
 
 const { processMatchesData } = require("./events")
 const { getEventIdsByType } = require("./getEventIdsByType")
-// const { HLTV } = require("hltv")
 
 /**
  * 主函数异步执行流程
@@ -23,8 +20,8 @@ async function mainExecution(eventType) {
     // }
     // 如果可以并行处理，使用Promise.all；否则保持串行
     const [matchesData, resultsData] = await Promise.all([
-      fetchAndProcessData(eventIds, getMatches),
-      fetchAndProcessData(eventIds, getResults),
+      fetchAndProcessData(eventIds, "getMatches"),
+      fetchAndProcessData(eventIds, "getResults"),
     ])
     console.log(`[${new Date().getTime()}] 获取比赛数据成功`)
     // const resultsData = await main(eventType, getResults)

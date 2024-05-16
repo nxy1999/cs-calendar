@@ -17,7 +17,7 @@ async function getMatches(eventIds) {
   }
 }
 // 测试代码
-const { getEventIdsByType } = require("./getEventIdsByType.js")
+const { getEventIdsByType } = require("../getEventIdsByType.js")
 const { EventType } = require("hltv/lib/shared/EventType")
 getEventIdsByType(EventType.InternationalLAN).then((eventIds) => {
   getMatches(eventIds)
