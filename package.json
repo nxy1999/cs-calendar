@@ -20,7 +20,8 @@
   "license": "ISC",
   "dependencies": {
     "hltv": "^3.5.0",
-    "ics": "^3.7.2"
+    "ics": "^3.7.2",
+    "liquipedia-api": "^1.0.10"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
