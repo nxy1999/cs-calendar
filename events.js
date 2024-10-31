@@ -28,7 +28,7 @@ function createEvent(match) {
   const team1Name = match.team1.name
   const team2Name = match.team2.name
   const stars = match.stars || 0
-  let duration = 0
+  let duration
   if (match.format === "bo1") {
     duration = { hours: 1 }
   } else if (match.format === "bo3") {
