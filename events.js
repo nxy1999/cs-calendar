@@ -28,6 +28,16 @@ function createEvent(match) {
   const team1Name = match.team1.name
   const team2Name = match.team2.name
   const stars = match.stars || 0
+  let duration = 0
+  if (match.format === "bo1") {
+    duration = { hours: 1 }
+  } else if (match.format === "bo3") {
+    duration = { hours: 3 }
+  } else if (match.format === "bo5") {
+    duration = { hours: 5 }
+  } else {
+    duration = 0
+  }
 
   // 构建基础的 eventTitle
   let eventTitle = `${team1Name} vs ${team2Name}`
@@ -48,6 +58,7 @@ function createEvent(match) {
   const eventDescription = `HLTV: ${starsToSymbols(stars)}\nHLTV: ${match.stars}星推荐\n赛制: ${match.format}\n赛事：${match.event.name}`
   return {
     start: timestamp,
+    duration,
     title: eventTitle,
     description: eventDescription,
   }
@@ -81,6 +92,7 @@ async function processMatchesData(
   console.log(`[${new Date().getTime()}] 正在创建新事件列表...`)
   // calEvents存储createEvent函数返回的每个事件对象
   for (const match of matches) {
+    // 比赛是否为进行中
     if (match.live) {
       try {
         const { date } = await HLTV.getMatch({ id: match.id })
