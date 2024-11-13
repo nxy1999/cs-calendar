@@ -34,4 +34,4 @@ async function mainExecution(eventType) {
   }
 }
 
-mainExecution(EventType.Major)
+mainExecution(EventType.InternationalLAN)

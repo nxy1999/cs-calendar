@@ -12,8 +12,11 @@ async function getEventIdsByType(eventType) {
   }
   try {
     const eventsResponse = await HLTV.getEvents({ eventType })
+    console.log("Events Response:", eventsResponse)
     // 处理只属于特定类型的事件
-    return eventsResponse.map((event) => event.id)
+    return eventsResponse
+      .filter((event) => event.featured === true)
+      .map((event) => event.id)
   } catch (error) {
     // 处理可能发生的错误
     console.error("Error fetching event IDs by type:", error)
@@ -25,7 +28,7 @@ async function getEventIdsByType(eventType) {
 // 导入 EventType 枚举
 const { EventType } = require("hltv/lib/shared/EventType")
 // 暂定改为major
-getEventIdsByType(EventType.Major)
+getEventIdsByType(EventType.InternationalLAN)
   .then((eventIds) => console.log("Event IDs:", eventIds))
   .catch((error) => console.error("Error:", error))
 
