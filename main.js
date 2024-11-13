@@ -21,8 +21,8 @@ async function mainExecution(eventType) {
     const { MatchFilter } = require("hltv/lib/endpoints/getMatches")
     // 如果可以并行处理，使用Promise.all；否则保持串行
     const [matchesData, resultsData] = await Promise.all([
-      fetchAndProcessData(MatchFilter.TopTier, "getMatches"),
-      fetchAndProcessData(eventIds, "getResults"),
+      fetchAndProcessData(eventIds, MatchFilter.TopTier, "getMatches"),
+      fetchAndProcessData(eventIds, "", "getResults"),
     ])
     console.log(`[${new Date().getTime()}] 获取比赛数据成功`)
     // const resultsData = await main(eventType, getResults)

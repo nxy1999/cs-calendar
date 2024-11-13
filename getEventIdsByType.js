@@ -12,7 +12,7 @@ async function getEventIdsByType(eventType) {
   }
   try {
     const eventsResponse = await HLTV.getEvents({ eventType })
-    console.log("Events Response:", eventsResponse)
+    // console.log("Events Response:", eventsResponse)
     // 处理只属于特定类型的事件
     return eventsResponse
       .filter((event) => event.featured === true)

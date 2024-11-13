@@ -1,19 +1,19 @@
 const { HLTV } = require("hltv")
-
 /**
  * 异步获取比赛数据或比赛结果
+ * @param eventIds
  * @param type
  * @param func
  * @returns {Promise<Array>} 返回一个比赛数据的数组
  */
-async function fetchMatchesData(type, func) {
+async function fetchMatchesData(eventIds, type, func) {
   let result
   switch (func) {
     case "getResults":
-      result = await HLTV.getResults({ eventIds: type })
+      result = await HLTV.getResults({ eventIds })
       break
     case "getMatches":
-      result = await HLTV.getMatches({ filter: type })
+      result = await HLTV.getMatches({ eventIds, filter: type })
       break
     default:
       throw new Error("Invalid function")
@@ -23,11 +23,12 @@ async function fetchMatchesData(type, func) {
 
 /**
  * 主函数，用于异步获取特定事件类型的比赛数据。
- * @param type
+ * @param eventIds
+ * @param filter
  * @param funcName
  * @returns {Promise<any>} - 返回一个Promise，成功时解析为比赛数据的JSON对象，失败时则不会返回任何内容。
  */
-async function fetchAndProcessData(type, funcName) {
+async function fetchAndProcessData(eventIds, filter, funcName) {
   const maxAttempts = 10
   const delay = 20
 
@@ -36,7 +37,11 @@ async function fetchAndProcessData(type, funcName) {
       console.log(
         `[${new Date().getTime()}] ${funcName} 正在尝试 第${attempt + 1}次:`,
       )
-      const matchesResultsJson = await fetchMatchesData(type, funcName)
+      const matchesResultsJson = await fetchMatchesData(
+        eventIds,
+        filter,
+        funcName,
+      )
       // console.log(matchesJson)
       if (matchesResultsJson) {
         return matchesResultsJson
