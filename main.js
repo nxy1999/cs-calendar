@@ -18,9 +18,10 @@ async function mainExecution(eventType) {
     // if (!eventIds || eventIds.length === 0) {
     //   throw new Error("未找到事件ID")
     // }
+    const { MatchFilter } = require("hltv/lib/endpoints/getMatches")
     // 如果可以并行处理，使用Promise.all；否则保持串行
     const [matchesData, resultsData] = await Promise.all([
-      fetchAndProcessData(eventIds, "getMatches"),
+      fetchAndProcessData(MatchFilter.TopTier, "getMatches"),
       fetchAndProcessData(eventIds, "getResults"),
     ])
     console.log(`[${new Date().getTime()}] 获取比赛数据成功`)
