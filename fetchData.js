@@ -10,7 +10,7 @@ async function fetchMatchesData(eventIds, func) {
   let result
   switch (func) {
     case "getResults":
-      result = await HLTV.getResults({ eventIds })
+      result = await HLTV.getResults(eventIds)
       break
     case "getMatchesByEvents":
       result = await getMatchesByEvents(eventIds)
