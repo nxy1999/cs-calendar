@@ -2,10 +2,10 @@
   "name": "ics-hltv",
   "version": "1.0.0",
   "description": "CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户端订阅",
-  "main": "test/getMatches.js",
+  "main": "test/main.js",
   "scripts": {
     "build": "node main.js",
-    "match": "node test/getMatches.js",
+    "match": "node getMatchesByEvents.js",
     "event": "node getEventIdsByType.js",
     "lint": "eslint .",
     "format": "prettier --write ."
