@@ -14,9 +14,11 @@ async function getEventIdsByType(eventType) {
     const eventsResponse = await HLTV.getEvents({ eventType })
     // console.log("Events Response:", eventsResponse)
     // 处理只属于featured类型的事件
-    return eventsResponse
+    const eventIds = eventsResponse
       .filter((event) => event.featured === true)
       .map((event) => event.id)
+    console.log("Event IDs:", eventIds)
+    return eventIds
   } catch (error) {
     // 处理可能发生的错误
     console.error("Error fetching event IDs by type:", error)
@@ -25,11 +27,14 @@ async function getEventIdsByType(eventType) {
 }
 
 // 以下为测试代码，展示如何使用getEventIdsByType函数获取特定类型的事件ID
-// 导入 EventType 枚举
-const { EventType } = require("hltv/lib/shared/EventType")
-// 暂定改为major
-getEventIdsByType(EventType.InternationalLAN)
-  .then((eventIds) => console.log("Event IDs:", eventIds))
-  .catch((error) => console.error("Error:", error))
+if (require.main === module) {
+  // 以下为测试代码，展示如何使用getEventIdsByType函数获取特定类型的事件ID
+  // 导入 EventType 枚举
+  const { EventType } = require("hltv/lib/shared/EventType")
+  // 暂定改为major
+  getEventIdsByType(EventType.InternationalLAN)
+    .then((eventIds) => console.log("Event IDs:", eventIds))
+    .catch((error) => console.error("Error:", error))
+}
 
 module.exports = { getEventIdsByType }
