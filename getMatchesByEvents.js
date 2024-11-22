@@ -19,7 +19,8 @@ async function getMatchesByEvents(eventIds) {
         console.log("matches", matches)
         // console.log(JSON.stringify(matches))
         console.log("matches[0]", matches[0])
-        return eventIds.includes(matches[0]?.event?.id) ? matches : []
+        return matches
+        // return eventIds.includes(matches[0]?.event?.id) ? matches : []
     } catch (error) {
         console.error("获取事件ID或比赛信息时发生错误:", error)
     }
@@ -39,8 +40,8 @@ if (require.main === module) {
     })
 }
 
-// getMatchesByEvents()
-//   .then((matches) => console.log(matches))
-//   .catch((error) => console.error("getMatches函数中发生未处理的错误:", error))
+// getMatchesByEvents([7865])
+//     .then((matches) => console.log(matches))
+//     .catch((error) => console.error("getMatches函数中发生未处理的错误:", error))
 
 module.exports = { getMatchesByEvents }

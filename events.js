@@ -35,7 +35,9 @@ function createEvent(match) {
 
     const team1Name = match.team1.name
     const team2Name = match.team2.name
+
     const stars = match.stars || 0
+
     let duration
     if (match.format === "bo1") {
         duration = { hours: 1 }
@@ -94,7 +96,7 @@ async function processMatchesData(
     }
     console.log(`[${new Date().getTime()}] 正在提取旧日历文件标题...`)
     const oldEvents = extractAllSummaries(oldIcsContent)
-
+    // 赛事结果
     const calResults = results.map((result) => createEvent(result))
 
     console.log(`[${new Date().getTime()}] 正在创建新事件列表...`)

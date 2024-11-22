@@ -13,14 +13,16 @@ async function getResults(eventIds) {
     }
 }
 // 测试代码
-const { getEventIdsByType } = require("../getEventIdsByType.js")
-const { EventType } = require("hltv/lib/shared/EventType")
-getEventIdsByType(EventType.InternationalLAN).then((eventIds) => {
-    getResults(eventIds)
-        .then((matches) => console.log(matches))
-        .catch((error) =>
-            console.error("getResults函数中发生未处理的错误:", error),
-        )
-})
-
+if (require.main === module) {
+    const { getEventIdsByType } = require("../getEventIdsByType.js")
+    const { EventType } = require("hltv/lib/shared/EventType")
+    getEventIdsByType(EventType.InternationalLAN).then((events) => {
+        const eventIds = events.map((event) => event.id)
+        getResults(eventIds)
+            .then((matches) => console.log(matches))
+            .catch((error) =>
+                console.error("getResults函数中发生未处理的错误:", error),
+            )
+    })
+}
 module.exports = { getResults }
