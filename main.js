@@ -29,6 +29,6 @@ async function mainExecution(eventType) {
     }
 }
 
-mainExecution(EventType.InternationalLAN).catch((e) => {
+mainExecution([EventType.InternationalLAN, EventType.Major]).catch((e) => {
     console.error("mainExecution error occurred:", e)
 })
