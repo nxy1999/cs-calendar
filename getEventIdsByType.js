@@ -35,7 +35,7 @@ if (require.main === module) {
     const { EventType } = require("hltv/lib/shared/EventType")
     // 暂定改为major
     getEventIdsByType(EventType.InternationalLAN)
-        .then((eventIds) => console.log("Event IDs:", eventIds))
+        .then()
         .catch((error) => console.error("Error:", error))
 }
 
