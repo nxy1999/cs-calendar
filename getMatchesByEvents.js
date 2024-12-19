@@ -19,6 +19,9 @@ async function getMatchesByEvents(eventIds) {
         console.log("matches", matches)
         // console.log(JSON.stringify(matches))
         console.log("matches[0]", matches[0])
+        if (matches[0]?.event?.id !== eventIds[0]) {
+            return null
+        }
         return matches
         // return eventIds.includes(matches[0]?.event?.id) ? matches : []
     } catch (error) {
