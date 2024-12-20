@@ -42,48 +42,48 @@ function areEventsEqual(oldEvents, newEvents) {
 }
 
 // 获取数据直到10次
-async function getDataUntilMaxTimes(func) {
-    const maxAttempts = 10
-    const delay = 20
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        try {
-            console.log(
-                `[${new Date().getTime()}] ${func} 正在尝试 第${attempt + 1}次:`,
-            )
-            const dataResults = await func()
-            console.log("dataResults", dataResults)
-            if (dataResults && dataResults.length > 0) {
-                return dataResults
-            } else {
-                console.log(
-                    `[${new Date().getTime()}] 尝试 ${attempt + 1}: No data returned, retrying...`,
-                )
-            }
-        } catch (e) {
-            if (e instanceof SyntaxError && e.name === "JSONDecodeError") {
-                console.error("Error decoding JSON: ", e.message)
-            } else if (e instanceof Error) {
-                console.error(
-                    `Attempt ${attempt + 1} failed due to: ${e.message}`,
-                )
-            } else {
-                console.error(
-                    `Unexpected error during Attempt ${attempt + 1}: ${e}`,
-                )
-            }
-            if (attempt < maxAttempts - 1) {
-                await new Promise((resolve) =>
-                    setTimeout(resolve, delay * 1000),
-                )
-            }
-        }
-    }
-}
+// async function getDataUntilMaxTimes(func) {
+//     const maxAttempts = 10
+//     const delay = 20
+//     for (let attempt = 0; attempt < maxAttempts; attempt++) {
+//         try {
+//             console.log(
+//                 `[${new Date().getTime()}] ${func} 正在尝试 第${attempt + 1}次:`,
+//             )
+//             const dataResults = await func()
+//             console.log("dataResults", dataResults)
+//             if (dataResults && dataResults.length > 0) {
+//                 return dataResults
+//             } else {
+//                 console.log(
+//                     `[${new Date().getTime()}] 尝试 ${attempt + 1}: No data returned, retrying...`,
+//                 )
+//             }
+//         } catch (e) {
+//             if (e instanceof SyntaxError && e.name === "JSONDecodeError") {
+//                 console.error("Error decoding JSON: ", e.message)
+//             } else if (e instanceof Error) {
+//                 console.error(
+//                     `Attempt ${attempt + 1} failed due to: ${e.message}`,
+//                 )
+//             } else {
+//                 console.error(
+//                     `Unexpected error during Attempt ${attempt + 1}: ${e}`,
+//                 )
+//             }
+//             if (attempt < maxAttempts - 1) {
+//                 await new Promise((resolve) =>
+//                     setTimeout(resolve, delay * 1000),
+//                 )
+//             }
+//         }
+//     }
+// }
 
 module.exports = {
     starsToSymbols,
     extractAllSummaries,
     handleFileReadError,
     areEventsEqual,
-    getDataUntilMaxTimes,
+    // getDataUntilMaxTimes,
 }
