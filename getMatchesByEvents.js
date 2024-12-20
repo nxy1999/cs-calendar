@@ -18,9 +18,9 @@ async function getMatchesByEvents(eventIds) {
         const matches = await HLTV.getMatches({ eventIds })
         console.log("matches", matches)
         // console.log(JSON.stringify(matches))
-        console.log("matches[0]", matches[0])
+        console.log("matches[matches.length-1]", matches[matches.length - 1])
         if (matches[0]?.event?.id !== eventIds[0]) {
-            return [matches[0]]
+            return [matches[matches.length - 1]]
         }
         return matches
         // return eventIds.includes(matches[0]?.event?.id) ? matches : []
