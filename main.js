@@ -10,9 +10,6 @@ const { getEventIdsByType } = require("./getEventIdsByType")
  * 无明确返回值，但依赖于外部函数的返回值来决定流程的推进
  */
 async function mainExecution(eventType) {
-    // 测试数据
-    // const matchesData = JSON.parse([...]); // 这里应放入与Python中类似的JSON字符串
-    // const eventType = EventType.InternationalLAN
     const eventIds = await getEventIdsByType(eventType)
     // if (!eventIds || eventIds.length === 0) {
     //   throw new Error("未找到事件ID")
