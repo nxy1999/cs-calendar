@@ -44,6 +44,9 @@ async function fetchAndProcessData(eventIds, funcName) {
             if (matchesResultsJson) {
                 return matchesResultsJson
             } else {
+                await new Promise((resolve) =>
+                    setTimeout(resolve, delay * 1000),
+                )
                 console.log(
                     `[${new Date().getTime()}] 尝试 ${attempt + 1}: No data returned, retrying...`,
                 )
