@@ -19,8 +19,20 @@ async function getMatchesByEvents(eventIds) {
         console.log("matches", matches)
         // console.log(JSON.stringify(matches))
         console.log("matches[matches.length-1]", matches[matches.length - 1])
+
         if (matches[0]?.event?.id !== eventIds[0]) {
-            return [matches[matches.length - 1]]
+            const kongEvent = {
+                id: 2378117,
+                date: undefined,
+                stars: 0,
+                title: undefined,
+                team1: {},
+                team2: {},
+                format: "bo3",
+                event: {},
+                live: false,
+            }
+            return [kongEvent]
         }
         return matches
         // return eventIds.includes(matches[0]?.event?.id) ? matches : []
