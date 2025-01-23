@@ -20,20 +20,21 @@ async function getMatchesByEvents(eventIds) {
         // console.log(JSON.stringify(matches))
         console.log("matches[matches.length-1]", matches[matches.length - 1])
 
-        if (matches[0]?.event?.id !== eventIds[0]) {
-            const kongEvent = {
-                id: 2378117,
-                date: undefined,
-                stars: 0,
-                title: undefined,
-                team1: {},
-                team2: {},
-                format: "bo3",
-                event: {},
-                live: false,
-            }
-            return [kongEvent]
-        }
+        // HLTV 返回的eventId有问题，对不上
+        // if (matches[0]?.event?.id !== eventIds[0]) {
+        //     const emptyEvent = {
+        //         id: 2378117,
+        //         date: undefined,
+        //         stars: 0,
+        //         title: undefined,
+        //         team1: {},
+        //         team2: {},
+        //         format: "bo3",
+        //         event: {},
+        //         live: false,
+        //     }
+        //     return [emptyEvent]
+        // }
         return matches
         // return eventIds.includes(matches[0]?.event?.id) ? matches : []
     } catch (error) {
