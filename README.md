@@ -6,6 +6,8 @@ CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户�
 
 推荐使用网址进行订阅，不推荐使用ics文件导入（不能更新）
 
+！日程已失效，比分结果还能看
+
 ## 订阅地址
 - **Gitee 订阅地址（推荐使用，国内上网）**：https://gitee.com/nie-momo/cs-calendar/raw/master/matches_calendar.ics
 - GitHub 订阅地址（科学上网）：https://github.com/nxy1999/cs-calendar/raw/master/matches_calendar.ics
