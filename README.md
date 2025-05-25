@@ -1,4 +1,4 @@
-由于上游API不再维护，日程功能已失效，现在只能查看比分
+>**⚠️警告： 由于上游API不再维护，日程功能已失效，现在只能查看比分**
 
 # cs-calendar
 CS赛事日历，ICS格式，可供IPhone、Google Calendar、Outlook等客户端订阅
