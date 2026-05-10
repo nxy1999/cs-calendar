@@ -3,6 +3,9 @@
 
 name: Node.js CI
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   repository_dispatch:
