@@ -1,0 +1,4 @@
+{
+    "teams": ["NAVI", "FaZe", "Liquid", "G2"],
+    "comment": "请将此文件重命名为 teams.json 并添加你关注的战队名称"
+}
