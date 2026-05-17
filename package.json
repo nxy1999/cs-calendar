@@ -19,7 +19,7 @@
     "author": "nxy 2924157356@qq.com",
     "license": "ISC",
     "dependencies": {
-        "hltv": "^3.5.0",
+        "@awakcon1234/hltv": "^3.5.0",
         "ics": "^3.7.2"
     },
     "devDependencies": {

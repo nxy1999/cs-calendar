@@ -1,4 +1,4 @@
-const { EventType } = require("hltv/lib/shared/EventType")
+const { EventType } = require("@awakcon1234/hltv/lib/shared/EventType")
 const { fetchAndProcessData } = require("./fetchData")
 
 const { processMatchesData } = require("./events")

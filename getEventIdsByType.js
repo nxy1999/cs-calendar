@@ -1,4 +1,4 @@
-const { HLTV } = require("hltv")
+const { HLTV } = require("@awakcon1234/hltv")
 
 /**
  * 将获取特定类型事件ID的逻辑封装为一个函数

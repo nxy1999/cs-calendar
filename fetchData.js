@@ -1,4 +1,4 @@
-const { HLTV } = require("hltv")
+const { HLTV } = require("@awakcon1234/hltv")
 const { getMatchesByEvents } = require("./getMatchesByEvents")
 /**
  * 异步获取比赛数据或比赛结果

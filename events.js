@@ -4,7 +4,7 @@ const {
     extractAllSummaries,
     areEventsEqual,
 } = require("./utils")
-const { HLTV } = require("hltv")
+const { HLTV } = require("@awakcon1234/hltv")
 const ics = require("ics")
 
 /**
