@@ -1,4 +1,4 @@
-const { HLTV } = require("@awakcon1234/hltv")
+const { HLTV } = require("hltv")
 
 /**
  * 获取指定类型的Major事件ID，然后获取这些事件的比赛信息

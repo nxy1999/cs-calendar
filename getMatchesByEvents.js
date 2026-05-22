@@ -1,4 +1,4 @@
-const { HLTV } = require("@awakcon1234/hltv")
+const { HLTV } = require("hltv")
 // const { getDataUntilMaxTimes } = require("./utils")
 // const { getEventIdsByType } = require("./getEventIdsByType")
 // const { EventType } = require("hltv/lib/shared/EventType")
